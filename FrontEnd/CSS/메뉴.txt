@@ -1,0 +1,442 @@
+1) 메뉴 소개
+들어가기 전에
+
+메뉴는 웹페이지 이동을 도와주는 내비게이션의 역할을 합니다.
+
+웹사이트에서 메뉴는 필수적으로 제공되어야 하는 중요한 UI 요소 중 하나입니다.
+
+이번 영상을 통해 다양한 유형의 메뉴에 대해서 이해하고 어떤 기능을 제공하는지 알아보겠습니다.
+
+
+메뉴란?
+
+메뉴는 다른 말로 내비게이션이라고도 불립니다.
+
+사용자가 웹사이트 내에 있는 다양한 페이지를 이동할 수 있도록 지원하며
+
+웹사이트에서 제공되는 정보를 쉽게 찾을 수 있도록 도와주는 역할을 합니다.
+
+
+메뉴의 종류
+
+1단 메뉴
+2단 메뉴
+좌/우측 메뉴
+ 
+
+ 
+참고자료
+
+ 
+
+네이버 쇼핑
+https://shopping.naver.com
+
+메인 화면을 살펴보면 본문 상단에서 1단 메뉴를 사용하고 있습니다.
+메뉴는 외곽선을 갖는 4개의 셀을 가지고 있습니다.
+예매하기 : 네이버 영화
+http://ticket.movie.naver.com
+
+좌측을 보시면 2단으로 구성된 세로 메뉴를 제공하고 있습니다.
+메뉴를 클릭하여 해당 페이지로 이동했을 경우 메뉴가 활성화되는 부분도 확인이 가능합니다.
+
+HTML 실습
+
+<div class="wrap">
+  <ul class="menu">
+    <li class="menu_item"></li>
+    <li class="menu_item"></li>
+    <li class="menu_item"></li>
+    <li class="menu_item"></li>
+    <li class="menu_item"></li>
+  </ul>
+</div>
+메뉴는 여러 개의 메뉴 아이템을 가지고 있으므로 리스트 태그인 <ul><li></li></ul>를 이용하여 만드는 것이 일반적입니다. 
+
+<ul>과 <li>에는 스타일 적용을 위해 각각 클래스를 입력하고, 총 5개의 아이템을 만들어야 하므로 <li></li>는 5개를 추가합니다.
+
+
+
+메뉴는 아이템을 클릭 시 페이지 이동이 되어야 하므로  <li>안에 메뉴명을 감싸는 <a> 태그를 추가하고,
+
+스타일 적용을 위한 클래스도 추가합니다.
+
+추가적으로 메뉴 활성화 처리를 위해 특정 <li> 안에 active 클래스를 하나 더 추가합니다.
+
+최종적으로 우리가 제작하려고 하는 1단 메뉴 html 은 아래와 같은 형태입니다.
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="menu1.css">
+    <title>메뉴실습1</title>
+</head>
+<body>
+  <div class="wrap">
+      <ul class="menu">
+        <li class="menu_item"><a href="#" class="menu_link">메일</a></li>
+        <li class="menu_item active"><a href="#" class="menu_link">카페</a></li>
+        <li class="menu_item"><a href="#" class="menu_link">소프트웨어</a></li>
+        <li class="menu_item"><a href="#" class="menu_link">지식백과</a></li>
+        <li class="menu_item"><a href="#" class="menu_link">영화</a></li>
+      </ul>
+  </div>
+</body>
+</html>
+  
+
+CSS 실습
+
+@charset "UTF-8";
+
+/* 기본 스타일 */
+body {
+    font-family: '나눔고딕', NanumGothic, Dotum, '돋움', sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+}
+body, ul, ol, li, div, a {
+    margin:0;
+    padding:0;
+}
+ul, ol {
+    list-style:none;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+/* 1단 메뉴 */
+.wrap {
+    max-width: 700px;
+    min-width: 500px;
+    margin: 5px;
+}
+.menu {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.menu_item {
+    display: table-cell;
+}
+.menu_link {
+    display: block;
+    height: 36px;    
+    border: 1px solid #ddd;
+    font-size: 12px;
+    line-height: 36px;
+    color: #333;
+    text-align: center;
+}
+.menu_item + .menu_item .menu_link {
+    margin-left: -1px;
+}
+.menu_item:hover .menu_link {
+    color: green;
+    font-weight: bold;
+}
+.menu_item.active .menu_link {
+    position: relative;
+    border-color: #555;
+    font-weight: bold;
+    color: #fff;
+    background: gray; 
+}
+ 
+
+요약정리 
+
+메뉴 최소/최대 너비
+
+min-width, max-width를 사용하여 브라우저 너비에 따른 메뉴 너비를 가변적으로 
+처리할 수 있습니다.
+.wrap {
+    max-width: 700px;
+    min-width: 500px;
+}
+메뉴 너비 균등
+
+display: table 속성을 사용하여 각 메뉴 셀을 테이블 그리드 UI로 배치할 수 있으며, 
+각 메뉴 너비를 균등하기 위해 table-layout: fixed를 반드시 입력해주어야 합니다.
+.menu {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.menu_item {
+    display: table-cell;
+}
+외곽선 겹침 현상 해결
+
+각 셀 이 가지고 있는 외곽선 겹침 문제는 우측 셀을 좌측으로 1px씩 이동하기 위한
+margin-left: -1px을 적용하면 외곽선이 두껍게 나오는 현상을 해결할 수 있습니다.
+.menu_item + .menu_item .menu_link {
+    margin-left: -1px;
+}
+
+들어가기 전에
+
+이번 시간에는 2단 메뉴를 만들어보는 시간을 가져보겠습니다.
+
+2단 메뉴는 메인 메뉴와 서브 메뉴로 구성되어 있습니다.
+
+메인 메뉴 활성화 여부에 따라 서브 메뉴가 노출될 수 있는 방법과 메뉴가 화면 가로 중앙 정렬될 수 있게 하는
+
+방법에 대해 살펴보도록 하겠습니다
+
+HTML 실습
+
+  <div class="wrap">
+    <!-- 메인 메뉴 -->
+    <ul class="menu">
+      <!-- 메인 메뉴 활성화 클래스 active 추가 -->
+      <li class="menu_item active">
+        <a href="#" class="menu_link">웹툰</a>
+      </li>
+      <li class="menu_item">
+        <a href="#" class="menu_link">블로그</a>
+      </li>
+      <li class="menu_item">
+        <a href="#" class="menu_link">지식백과</a>
+      </li>        
+      <li class="menu_item">
+        <a href="#" class="menu_link">카페</a>          
+      </li>
+    </ul>
+  </div>
+앞서 살펴보았던 1단 메뉴와 동일하게 메인 메뉴 태그를 위와 같이 작성합니다. 
+
+각 태그에 스타일 적용을 위한 클래스를 추가하고 메인 메뉴 활성화 처리를 위해
+
+특정 <li> 안에 active 클래스를 하나 더 추가합니다.
+
+  <div class="wrap">
+    <!-- 메인 메뉴 -->
+    <ul class="menu">
+      <!-- 메인 메뉴 활성화 클래스 active 추가 -->
+      <li class="menu_item active">
+        <a href="#" class="menu_link">웹툰</a>
+        <!-- 서브 메뉴 -->
+        <ul class="submenu">
+          <!-- 서브 메뉴 활성화 클래스 active 추가 -->
+          <li class="submenu_item active"><a href="#" class="submenu_link"><span>요일별</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>장르별</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>작가별</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>연도별</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>작품별</span></a></li>  
+        </ul>
+      </li>
+      <li class="menu_item">
+        <a href="#" class="menu_link">블로그</a>
+      </li>
+      <li class="menu_item">
+        <a href="#" class="menu_link">지식백과</a>
+        <!-- 서브 메뉴 -->
+        <ul class="submenu">
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>건강백과</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link active"><span>밀리터리백과</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>음식백과</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>동물백과</span></a></li>      
+        </ul>
+      </li>        
+      <li class="menu_item">
+        <a href="#" class="menu_link">카페</a>          
+      </li>
+    </ul>
+  </div>
+서브 메뉴는 메인 메뉴인 menu_item 클래스를 가지고 있는 <li> 안에  서브 메뉴 <ul><li></li></ul> 태그를 추가합니다.
+
+ 
+
+서브 메뉴도 메인 메뉴와 구분 될 수 있도록 submenu, submenu_item 클래스를 추가합니다.
+
+마지막으로 서브 메뉴 활성화 처리를 위해 특정 <li> 안에 active 클래스를 하나 더 추가합니다.
+
+ 
+
+최종적으로 우리가 제작하려고 하는 2단 메뉴 html 은 아래와 같은 형태입니다.
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="menu2.css">
+    <title>메뉴실습2</title>
+</head>
+<body>
+  <div class="wrap">
+    <!-- 메인 메뉴 -->
+    <ul class="menu">
+     <!-- 메인 메뉴 활성화 클래스 active 추가 -->
+      <li class="menu_item active">
+        <a href="#" class="menu_link">웹툰</a>
+        <!-- 서브 메뉴 -->
+        <ul class="submenu">
+          <!-- 서브 메뉴 활성화 클래스 active 추가 -->
+          <li class="submenu_item active"><a href="#" class="submenu_link"><span>요일별</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>장르별</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>작가별</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>연도별</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>작품별</span></a></li>  
+        </ul>
+      </li>
+      <li class="menu_item">
+        <a href="#" class="menu_link">블로그</a>
+      </li>
+      <li class="menu_item">
+        <a href="#" class="menu_link">지식백과</a>
+        <!-- 서브 메뉴 -->
+        <ul class="submenu">
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>건강백과</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link active"><span>밀리터리백과</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>음식백과</span></a></li>
+          <li class="submenu_item"><a href="#" class="submenu_link"><span>동물백과</span></a></li>      
+        </ul>
+      </li>        
+      <li class="menu_item">
+        <a href="#" class="menu_link">카페</a>          
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
+  
+
+CSS 실습
+
+ 
+
+@charset "UTF-8";
+
+/* 기본 스타일 */
+body {
+    font-family: '나눔고딕', NanumGothic, Dotum, '돋움', sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+}
+body, ul, ol, li, div, a {
+    margin:0;
+    padding:0;
+}
+ul, ol {
+    list-style:none;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+/* 2단 메뉴 */
+.menu {
+    width: 700px;
+    margin: 20px auto 0;
+    text-align: center;
+}
+.menu_item {
+    display: inline-block;
+}
+.menu_link {
+    display: block;
+    padding: 13px 20px;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: bold;
+    color: #444;
+}
+.menu_item:hover .menu_link,
+.menu_item.active .menu_link {
+    color: green; /* 메인 메뉴 선택, 활성화 효과 */
+}
+.menu_item.active .submenu {
+    display: block; /* 메인 메뉴 활성화 시 서브 메뉴 노출 처리 */
+}
+.submenu {
+    display: none; /* 서브 메뉴는 기본 비노출 처리 */
+    position: absolute;
+    left: 0;
+    width: 100%;
+    min-width: 700px;
+    border-top: 1px solid #eee; /* 서브 메뉴 상단 라인 */
+    border-bottom: 1px solid #eee; /* 서브 메뉴 하단 라인 */
+}
+.submenu_item {
+    display: inline-block;
+}
+.submenu_link {
+    display: block;
+    padding: 15px 35px;
+    font-size: 17px;
+    line-height: 20px;
+    color: #333;
+}
+ /* 서브 메뉴 선택, 활성화 시 효과 */
+.submenu_item:hover .submenu_link,
+.submenu_item.active .submenu_link {
+    font-weight: bold;
+    color: green;
+}
+.submenu_link span {
+    position: relative; 
+}
+ /* 서브 메뉴 선택, 활성화 시 하단 라인 노출 효과  */
+.submenu_item:hover span:after,
+.submenu_item.active span:after {
+    position: absolute;
+    content: '';
+    right: 0;
+    bottom: -15px;
+    left: 0;    
+    border-bottom: 2px solid green;
+}
+ 
+
+요약정리
+
+메뉴 가로 중앙 정렬
+
+가로 중앙 정렬을 위해서 고정 너비 값을 가지고 있는 block 요소에 margin:0 auto; 속성을 주고,
+ inline-block 요소의 경우에는 text-align: center;를 사용하여 중앙 정렬이 가능합니다.
+.menu {
+    width: 700px;
+    margin: 20px auto 0;
+    text-align: center;
+}
+.menu_item {
+    display: inline-block;
+}
+ 
+
+서브 메뉴 보이기/감추기
+
+메인 메뉴가 비활성화 일 경우에 서브 메뉴는 노출되지 않아야 하므로
+ul.submenu는 display:none;을 기본 속성을 가지고 있습니다.
+만약, 메인 메뉴가 활성화된다면  li.menu_item에 active 클래스를 추가하여
+ul.submenu가 display:block;으로 변경될 수 있도록 처리가 가능합니다. 
+.menu_item.active .submenu {
+    display: block;
+}
+.submenu {
+    display: none;
+}
+ 
+
+서브 메뉴 하단 라인
+
+서브 메뉴 마우스 오버 또는 활성화 시 노출되는 하단 라인을 메뉴명 텍스트 너비와 동일한
+라인을 생성하기 위해 메뉴명을 감싸는 <span> 태그를 추가하고 :after(가상선택자)를 사용하여
+보더 속성을 선언할 경우 향후 메뉴명 텍스트가 늘어나더라도 동일한 너비의 보더를 가질 수 있습니다.
+.submenu_link span {
+    position: relative;
+}
+.submenu_item:hover span:after {
+    position: absolute;
+    content: '';
+    right: 0;
+    bottom: -15px;
+    left: 0;    
+    border-bottom: 2px solid green;
+}
+ 

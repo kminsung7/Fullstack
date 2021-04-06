@@ -1,0 +1,354 @@
+들어가기 전에 
+
+고정 레이아웃이란 1단또는 2단 레이아웃의 형태에서 상단(header)과 하단(footer) 또는 그 두 영역이 모두 컨텐츠의 높이나 내용에 상관없이 항상 노출이 되도록 하는 레이아웃 형태입니다.
+
+고정 레이아웃 형태를 가진 사이트들
+
+(네이버 소프트웨어야 놀자) https://www.playsw.or.kr/main
+(네이버 오디오클립) https://audioclip.naver.com
+(라인) https://line.me/ko
+
+주요 기능 
+
+header 영역과 footer 영역이 상하단에 고정노출
+컨텐츠의 최소높이값이 100%인 레이아웃형태 만들기
+스타일 정보
+
+header 상단 고정
+footer 하단 고정
+콘텐츠 최소 높이값 100%
+주요 태그 및 속성 
+
+HTML
+div
+CSS
+position: fixed
+min-height
+margin
+padding
+
+
+고정 레이아웃 실습
+HTML 실습
+
+<div class="wrap">
+    <div class="header">header</div>
+    <div class="container">
+        <div class="content">content</div>
+    </div>
+    <div class="footer">footer</div>
+</div>
+이번 실습에서는 간단한 1단 레이아웃과 같은 구조를 만들어 보겠습니다. 하지만 실습을 위해 content는 실제로 화면을 구성하는 요소라고 생각하고 실제로 고정형 레이아웃을 위한 스타일은 container에 부여하도록 하겠습니다.
+
+ 
+
+  
+
+CSS 실습
+
+우리는 이번 실습에서 총 3가지의 실습을 통해 고정형 레이아웃을 만들어 보겠습니다. 
+
+먼저 상단 고정 레이아웃을 만드는 실습을 한 후 두번째는 box-sizing을 이용해 좀더 간략한 방법을 사용하겠습니다. 마지막으로 세번째는 상, 하단을 고정하는 레이아웃을 실습해보도록 하겠습니다.
+
+ 
+
+1. 기본 태그에 스타일 부여 (공통)
+
+.header{
+    height: 100px;
+    background-color: lightgreen; 
+}
+.content{
+    height: 300px;
+    background-color: lightsalmon;
+}
+.footer{
+    height:100px;
+    background-color: lightblue;
+}
+먼저 각 영역에 스타일을 부여해서 스타일 변화를 확인할 수 있도록 하겠습니다.
+
+ 
+
+상단 고정하기
+
+1. header를 상단에 고정하기
+
+.header{
+    position: fixed;  /* position 고정 */
+    top: 0; left: 0; right: 0; /* 상단 위치 */
+    height: 100px;
+    background-color: lightgreen; 
+}
+.content{
+    height: 300px;
+    background-color: lightsalmon;
+}
+.footer{
+    height:100px;
+    background-color: lightblue;
+}
+고정시킬 header 영역에 position: fixed 값을 부여하여 항상 화면의 상단에 고정할 수 있도록 위치값을 지정해 줍니다.
+
+left:0과 right:0 값으로 인하여 각 영역은 width: 100%처럼 동작합니다.
+
+ 
+
+2. 콘텐츠 영역 최소 높이값 설정
+
+.header {
+    position: fixed;  
+    top: 0; left: 0; right: 0; 
+    height: 100px;
+    background-color: lightgreen; 
+}
+.container {
+    min-height: 100%; /* 최소 높이값 100% */
+}
+.content{
+    height: 300px;
+    background-color: lightsalmon;
+}
+.footer{
+    position: fixed; 
+    bottom: 0; left: 0; right: 0;
+    height:100px;
+    background-color: lightblue;
+}
+container의 높이값을 최소 100%를 유지하기 위해 min-height 설정을 해줍니다. 여기까지 하고 확인을 하신다면 아마도 높이값이 100%가 되지 않을 겁니다. 콘텐츠는 스스로 높이값을 받을 수 없기 때문에 부모요소에서 부터 높이값을 상속받아야 합니다. 그래서 html >  body > .wrap > container 의 순서로 높이값을 상속 받아야 합니다. 
+
+html,
+body,
+.wrap {
+   height: 100%;
+}
+위와 같은 소스를 추가한다면 container의 높이가 부모로부터 받은 height 값을 상속받아 min-height 속성이 제대로 부여되는 것을 확인 할 수 있습니다.
+
+
+
+3. footer 끌어올리기
+
+html,
+body,
+.wrap {
+   height: 100%;
+}
+.header {
+    position: fixed;  
+    top: 0; left: 0; right: 0; 
+    height: 100px;
+    background-color: lightgreen; 
+}
+.container {
+    min-height: 100%; 
+    margin-top: -100px; /* 음수 마진으로 푸터의 높이만큼 끌어올려주기 */
+}
+.content{
+    height: 300px;
+    background-color: lightsalmon;
+}
+.footer{
+    position: fixed; 
+    bottom: 0; left: 0; right: 0;
+    height:100px;
+    background-color: lightblue;
+}
+컨테이너의 height 100%의 수치에 footer의 높이값만큼이 포함되어 전체 컨텐츠가 우리가 요구했던 높이값보다 더 많아졌기 때문에 margin을 top 방향으로 footer의 높이만큼 끌어올려주기 위해 -100px을 부여합니다.
+
+4. content의 상단 보이기
+
+html,
+body,
+.wrap {
+   height: 100%;
+}
+.header {
+    position: fixed;  
+    top: 0; left: 0; right: 0; 
+    height: 100px;
+    background-color: lightgreen; 
+}
+.container {
+    min-height: 100%; 
+    margin-top: -100px; 
+}
+.content{
+    height: 300px;
+    padding-top: 200px; /* 가려진 height의 높이값과 끌어올린 footer의 높이값을 합친 값을 padding-top으로 밀어줍니다. */
+    background-color: lightsalmon;
+}
+.footer{
+    position: fixed; 
+    bottom: 0; left: 0; right: 0;
+    height:100px;
+    background-color: lightblue;
+}
+3번까지 따라했다면 우리가 원하는 높이 300px의 content의 윗부분이 보이지 않는 것을 알 수 있습니다. header가 position: fixed 속성을 가지면서 뒤쪽으로 content가 height의 높이만큼 가려졌고, 또 footer를 전체 높이값에 노출되도록 하기 위해 margin-top: -100px을 사용하면서 footer의 높이값이 끌어올려졌기 때문입니다.
+
+그래서 우리는 기본적으로 content에 그 두 높이값을 합친 수치만큼을 padding-top 속성으로 밀어낼 수 있습니다. 
+
+이것으로 첫번째로 상단이 고정되는 레이아웃의 실습을 완성했습니다.
+
+상단 고정하기 (box-sizing: border-box)
+
+이번에는 box-sizing을 이용하여 상단을 고정하는 방법을 실습해보겠습니다.
+
+이번 실습은 위에서 적용했던 상단고정하기 실습과 진행이 거의 똑같기 때문에 위의 상단고정하기의 3번 소스에서 부터 진행하도록 하겠습니다.
+
+1. 상단고정하기 진행 3번
+
+html,
+body,
+.wrap {
+   height: 100%;
+}
+.header {
+    position: fixed;  
+    top: 0; left: 0; right: 0; 
+    height: 100px;
+    background-color: lightgreen; 
+}
+.container {
+    min-height: 100%; 
+    margin-top: -100px; 
+}
+.content{
+    height: 300px;
+    background-color: lightsalmon;
+}
+.footer{
+    position: fixed; 
+    bottom: 0; left: 0; right: 0;
+    height:100px;
+    background-color: lightblue;
+}
+동일하게 진행하고 이제 마지막으로 content를 우리가 원하는 대로 노출하기 위해 앞서는 padding-top 값을 content 클래스에 부여했었습니다.
+
+하지만 이번 방법에서는 레이아웃을 만들어주는 container에 padding-top값을 부여하고 content는 영향을 받지 않는 실습으로 진행해 보겠습니다.
+
+2. box-sizing: border-box 속성으로 padding값 무시
+
+html,
+body,
+.wrap {
+   height: 100%;
+}
+.header {
+    position: fixed;  
+    top: 0; left: 0; right: 0; 
+    height: 100px;
+    background-color: lightgreen; 
+}
+.container {
+    min-height: 100%; 
+    margin-top: -100px; 
+    padding-top: 200px; /* 가려진 header와 끌어올린 footer의 높이값 만큼 부여 */
+    box-sizing: border-box; /* padding이나 border를 컨텐츠에 부여된 높이값에 포함 */
+}
+.content{
+    height: 300px;
+    background-color: lightsalmon;
+}
+.footer{
+    position: fixed; 
+    bottom: 0; left: 0; right: 0;
+    height:100px;
+    background-color: lightblue;
+}
+위의 방법처럼 box-sizing 속성을 이용하여 해당 요소에 부여된 높이값이나 가로길이에 padding값이나 border를 포함시키도록 설정했습니다. 이렇게 하면 content 요소는 건드리지 않고 container에 레이아웃에 관련된 속성을 몰아서 부여할 수 있게 됩니다.
+
+
+위의 상단 고정 레이아웃을 진행한다면 위와 같은 스타일 변화가 이뤄집니다.
+회색영역은 우리가 눈으로 보는 브라우저 영역이며 두번째 실습에서는 3번에서 4번으로 변화되는 스타일을 설명했습니다.
+ 
+
+ 
+
+상 하단 고정하기 
+
+마지막으로 상단(header)과 하단(footer)를 항상 고정시키고 컨텐츠의 높이값은 최소 높이값 100%를 갖는 실습을 해보겠습니다.
+
+1. header와 footer 고정시키기
+
+.header{
+    position: fixed;  /* position 고정 */
+    top: 0; left: 0; right: 0; /* 상단 위치 */
+    height: 100px;
+    background-color: lightgreen; 
+}
+.content{
+    height: 300px;
+    background-color: lightsalmon;
+}
+.footer{
+    position: fixed;  /* position 고정 */
+    bottom: 0; left: 0; right: 0; /* 하단 위치 */
+    height:100px;
+    background-color: lightblue;
+}
+2. container 최소 높이값 설정
+
+html,
+body,
+.wrap {
+    height: 100%; /* 부모요소에 height 100% 부여 */
+}
+.header{
+    position: fixed;  
+    top: 0; left: 0; right: 0;
+    height: 100px;
+    background-color: lightgreen; 
+}
+.container {
+    min-height: 100%; /* 최소높이값 100% 설정 */
+}
+.content{
+    height: 300px;
+    background-color: lightsalmon;
+}
+.footer{
+    position: fixed;  
+    bottom: 0; left: 0; right: 0; 
+    height:100px;
+    background-color: lightblue;
+}
+3. container 노출영역 설정
+
+html,
+body,
+.wrap {
+    height: 100%; /* 부모요소에 height 100% 부여 */
+}
+.header{
+    position: fixed;  
+    top: 0; left: 0; right: 0;
+    height: 100px;
+    background-color: lightgreen; 
+}
+.container {
+    min-height: 100%; 
+    padding: 100px 0; /* height, footer 뒤로 가려진 영역 노출 */
+    box-sizing: border-box; /* padding값을 높이에서 무시하도록 속성 추가 */
+}
+.content{
+    height: 300px;
+    background-color: lightsalmon;
+}
+.footer{
+    position: fixed;  
+    bottom: 0; left: 0; right: 0; 
+    height:100px;
+    background-color: lightblue;
+}
+마지막으로 현재 container의 영역은 header와 footer 영역에 의해 위와 아래가 각각 100px씩 보이지 않고 있습니다. 이 부분을 해결하기 위해 padding값을 위와 아래에 각각 100px을 부여하여 content가 제대로 노출되게 만들었고 box-sizing: border-box 속성을 부여하여 높이값 100%에서 추가된 padding값을 포함할 수 있도록 해주었습니다.
+
+ 
+
+
+상하단의 고정 레이아웃은 위와 같은 스타일 변화가 있습니다. 2번의 경우는 높이값이 100%가 설정되었지만 실제로 container의 높이값에만 스타일 변화가 있었기 때문에 실습과정에서는 가시적인 변화는 없습니다.
+요약정리 
+
+position: fixed은 요소가 가지고 있는 크기를 흐름에서 아예 제외시키기 때문에 주변의 다른 요소들의 위치값에도 변동이 생기게 됩니다. 이것을 해결하기 위해 실습에서는 margin과 padding값을 이용해 높이값에서 사라진 크기만큼을 채워 넣는 방식으로 해결할 수 있었습니다.
+
+그리고 height값은 요소 스스로 높이값을 갖지 못하기 때문에 부모에게서 상속을 받게 되면 사용할 수 있었습니다. 실습 내에서는 콘텐츠의 최소 높이값을 확보하기 위해서 container 요소의 margin을 음수값으로 부여하는 방법으로 해결할 수 있었는데요. 이런 방법들은 레이아웃을 만드는 과정에서 뿐만 아니라 다양한 스타일을 구현하기 위해서 정확한 이해가 필요한 속성들이라고 할 수 있습니다.
+

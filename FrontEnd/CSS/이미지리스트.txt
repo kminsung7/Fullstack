@@ -1,0 +1,1544 @@
+들어가기 전에
+
+이미지 리스트는 웹사이트에서 가장 친숙한 리스트 UI 요소 중 하나입니다.
+
+이미지 리스트는 이미지와 함께 압축된 정보를 제공하여 콘텐츠를 미리 보여주는 역할을 합니다.
+
+이번 영상을 통해 이미지 리스트가 무엇이고 그 종류는 어떤 것들이 있는지 알아보겠습니다.
+
+이미지 리스트란?
+
+이미지 리스트는 다른 말로 섬네일 리스트라고도 불립니다.
+
+섬네일의 사전적 의미로는 엄지 손톱, 작은 물건이라는 뜻을 가지고 있는데요.
+
+인터넷에서 작은 크기의 견본 이미지를 가리켜 섬네일이라고 부릅니다.
+
+제작 화면
+주요 기능 
+
+메인, 서브 리스트로 구성된 2단 이미지 리스트 
+메인, 서브 리스트는 가로 중앙 정렬 처리
+메인 리스트는 이미지 위 레이어 형태의 말줄임 텍스트 노출
+서브 리스트는 이미지 하단에 말줄임 텍스트 노출
+스타일 정보
+
+메인/서브 리스트 - 전체 가로 너비: 1000px
+메인 리스트 -  메인 이미지: 322x215, 배경색: #ececec, 외곽선: 1px/solid/#000(투명도 5%)
+메인 리스트 - 카테고리 폰트: 14px/#fff, 제목 폰트: 18px/#fff 
+서브 리스트 -  서브 이미지: 188x141, 외곽선: 1px/solid/#000(투명도 3%)
+서브 리스트 - 카테고리 폰트: 12px/#7ba7df, 제목 폰트: 15px/#090909
+주요 태그 및 속성 
+
+HTML
+div, img, a, ol
+CSS
+float, position, ellipsis, :after, :nth-child
+
+1. 이미지 리스트 정렬
+(codepen 코드 확인하기)
+
+ 
+
+[HTML]
+
+<div class="main_wrap">
+  <ol class="main_list">
+    <li>90x90</li>
+    <li>90x90</li>
+    <li>90x90</li>
+  </ol>
+</div>
+<ol class="sub_list">
+  <li>48x48</li>
+  <li>48x48</li>
+  <li>48x48</li>
+  <li>48x48</li>
+  <li>48x48</li>
+  <li>48x48</li>
+  <li>48x48</li>
+  <li>48x48</li>
+  <li>48x48</li>
+  <li>48x48</li>  
+</ol>
+html 구조를 먼저 살펴보겠습니다.
+
+3단 이미지로 구성된 main_list, 5단 이미지로 구성된 ol.sub_list가 있습니다. 
+
+참고로 ol 태그는 순서가 있는 리스트를 만들 때 사용하는 태그입니다. 
+
+main_list의 경우에는 wrap으로 한 번 더 감쌌는데요.  이유는 배경색이 들어가기 때문입니다.
+
+ 
+
+[CSS]
+
+html, body, ol {
+  margin:0;
+  padding:0;
+}
+ol {
+  list-style: none;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+}
+.main_wrap {
+  background-color: silver;
+}
+.main_list {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+.main_list li {
+  float: left;
+  width: 90px;
+  height: 90px;  
+  line-height: 90px;
+  background-color: pink;
+}
+.main_list:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.main_list li + li {
+  margin-left: 15px;
+}
+.sub_list {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+.sub_list li {
+  float: left;
+  width: 48px;
+  height: 48px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  line-height: 48px;
+  background-color: olive;
+}
+.sub_list:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.sub_list li:nth-child(5n) {
+  margin-right: 0;
+}
+우선 태그가 기본적으로 가지고 있는 기본 스타일을 제거하기 위해 html, body, ol 태그에 margin, padding의 값을 초기화 하였습니다. 
+
+초기화 하지 않을 경우 브라우저가 갖는 기본 스타일이 적용되므로 디자인 가이드 값을 정확하게 맞추기 어렵습니다. 그렇기 때문에 실무에서는 작업 전 반드시 스타일을 초기화 시키고 작업을 진행합니다.
+
+메인 이미지 리스트를 감싸고 있는 main_wrap 클래스에 background-color 값을 지정하였습니다. 
+
+이미지 리스트는 총 300px의 width 값을 가지고 있습니다. 
+
+고정 너비를 가지고 있는 블록요소를 중앙 정렬 시키기 위해 margin: 0 auto;를 선언하였습니다. 
+
+li에는 float:left을 적용하여 블록요소를 좌측으로 이어 붙게 적용하였습니다.
+
+다만, float을 선언할 경우 부모 요소가 자식의 높이 값을 알지 못하기 때문에 반드시 해제를 해줘야 합니다. 
+
+해제하기 위해서는 다양한 방법이 있는데요 저는 :after를 선언하여 clear 시켰습니다. 
+
+섬네일 이미지는 이미지 사이에 간격을 가지고 있는데요. 첫번째 이미지를 제외한 나머지 이지만 좌측 여백을 가지고 있습니다.
+
+이럴 때 인접 형제 선택자를 사용하면 됩니다. 인접 형제 선택자는 A요소를 뒤따르는 B요소를 선택합니다.
+
+그러므로 첫번째 이미지를 제외한 나머지 이미지에만 좌측 여백을 줄 수 있습니다.
+
+서브 이미지 리스트도 이와 동일합니다.
+
+ 
+
+2. 텍스트 말줄임
+
+(codepen 코드 확인하기)
+
+ 
+
+[HTML]
+
+<p class="elip1">가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하</p>
+<p class="elip2">가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하</p>
+<p class="elip3">가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하</p>
+p태그로 구성된 텍스트가 3개가 있습니다.
+
+ 
+
+[CSS]
+
+p {
+  width: 200px;
+  background-color: yellow;
+  font-size: 16px;
+  line-height: 20px;
+}
+.elip1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.elip2 {
+  max-height: 40px; /* webkit 외 브라우저 대응, line-height*line수 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.elip3 {
+  max-height: 60px; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+다음으로 css를 살펴보겠습니다.
+
+말줄임을 하기 위해서는 고정 너비를 가져야 하기 때문에 width를 200px로 선언하였습니다.
+
+테스트를 위하여 font-size, line-heigt, background-color 속성을 추가했습니다. 
+
+white-space: nowrap; 은 글자수가 해당 너비를 넘어서게 되면 자동으로 줄바꿈이 되는데, nowrap을 설정할 경우 자동 줄바꿈을 방지할 수 있습니다.
+
+overflow:hidden을 선언하면 넘치는 부분을 감출 수 있습니다. 선언되지 않을 경우 요소의 너비를 벗어나게 되는데 이를 방지할 수 있습니다. 가장 중요한 해당 영역을 벗어날 경우 '…' 처리를 해주는 text-overflow:ellipsis;를 선언합니다.
+
+여러줄 말줄임의 경우에는 조금 다릅니다.
+
+일단 해당 자동 줄바꿈을 방지하는 white-space: nowrap;은 사용하지 않습니다. white-space는 값을 선언하지 않았다면 기본 normal 값을 적용되니 참고 바랍니다. overflow:hidden과 text-overflow:ellipsis;은 그대로 사용합니다.
+
+다음은 webkit 계열 브라우저(크롬, 오페라, 사파리)의 여러줄 말줄임 적용을 위한 선언 부분입니다.
+
+display: -webkit-box : 플렉스 박스 형태로 변환
+-webkit-box-orient: 플렉스 박스의 방향 설정
+-webkit-line-clamp: 보여줄 줄 개수
+여러줄 말줄임은 위 3가지 속성을 필수적으로 선언되니 잘 기억해두시기 바랍니다.
+
+여러 말줄임에서 주의하실 점 중에 하나는 webkit 외 브라우저 같은 크로스브라우징을 위한 처리를 위해 line-height 와 height를 반드시 선언해주셔야 합니다. height 값은 webkit-line-clamp * line-height를 해주시면 됩니다.
+
+만약 이 값을 선언하지 않을 경우 ie에서는 말줄임 없이 모든 텍스트가 노출되어 버리니 주의하셔야 합니다.
+
+ 
+
+3. 이미지 액자 효과
+
+(codepen 코드 확인하기)
+
+ 
+
+[HTML]
+
+<div class="img_wrap">
+  <img src="https://images.unsplash.com/photo-1544911845-1f34a3eb46b1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" width="200" height="134" alt="임시 이미지">
+<div>
+html 구조를 먼저 살펴보겠습니다.
+
+이미지 url을 가지고 있는 img 태그가 있고 그것을 감싸는 img_wrap이 있습니다.
+
+ 
+
+[CSS]
+
+.img_wrap {
+  position: relative;
+  width: 200px;
+  height: 134px;
+}
+.img_wrap:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  content: '';
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.15);
+}
+다음으로 css를 살펴보겠습니다.
+
+Img는 200x134 사이즈이므로 img_wrap에 동일한 width와 height를 선언하였습니다.
+
+다음은 이미지 위로 반투명 외곽선과 dimmed된 배경을 적용 위해 구조를 추가하여야 합니다.
+
+(*보더를 가지는 html 태그를 추가해서 만들 수 있으나 시멘틱 마크업을 위해 불필요한 구조는 추가하지 않고 before, after 같은 가상 선택자를 사용하여 구조를 추가하는 것이 좋습니다.)
+
+img 위로 보더가 나와야 하므로 absolute를 사용하여 이미지 위로 보더를 띄웠습니다..
+absolute 사용 시 부모 안 img_wrap의 너비, 높이 값과 동일하게 맞추기 위해 top, right, bottom, left 값을 0으로 선언하였습니다. 또한 반투명한 컬러 값 적용을 위해 rgba를 사용하였습니다.
+
+앞 3자리는 컬러코드를 뜻하며, 맨 마지막은 투명도 값입니다. 값 1은 100%(불투명)인 불투명을 뜻하므로 때문에 30% 투명도를 적용하기 위해 0.3을 입력했습니다.
+
+ 
+
+위에서 설명드린 3가지 핵심코드를 잘 이해하셨다면 실습 코드 시 내용을 쉽게 이해하실 수 있으니 잘 이해가 안되셨다면 반복해서 핵심 코드 강의를 꼭 숙지하시기 바랍니다.
+
+메인 리스트 제작하기
+HTML 실습
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <!-- http://meyerweb.com/eric/tools/css/reset/ -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style_1.css">
+    <title>네이버TV: 간단한 이미지 리스트</title>
+</head>
+<body>
+    <div class="wrap">
+        <h1>TOP100</h1>
+        <div class="main_wrap">
+            <div class="content">
+                <p class="noti_txt">8.21 오전 9시 ~ 오전 10시 기준 (재생수, 재생시간, 좋아요)</p>
+                <ol class="main_list">
+                    <li>
+                        <a href="#" class="item_link">
+                            <div class="img_box">
+                                <img src="./img/thumb_image_large.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <span class="category">산악스키</span>
+                                <p class="title">오스트리아 최대의 산악스키 연맹, 산악스키 아마데! 5개 지역에 걸쳐있고, 총 25여개의 슬로프 길이</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <div class="img_box">
+                                <img src="./img/thumb_image_large.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <span class="category">산악스키</span>
+                                <p class="title">오스트리아 최대의 산악스키 연맹, 산악스키 아마데! 5개 지역에 걸쳐있고, 총 25여개의 슬로프 길이</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <div class="img_box">
+                                <img src="./img/thumb_image_large.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <span class="category">산악스키</span>
+                                <p class="title">오스트리아 최대의 산악스키 연맹, 산악스키 아마데! 5개 지역에 걸쳐있고, 총 25여개의 슬로프 길이</p>
+                            </div>
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+  
+
+CSS 실습
+
+@charset "UTF-8";
+
+/* 기본 스타일 */
+body {
+    font-family: Dotum,'돋움', Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 18px;
+    color: #3c3c3c;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+    vertical-align: top;
+}
+img {
+    vertical-align: top;
+}
+
+/* 스타일 선언 */
+h1 {
+    overflow: hidden;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px 0;
+    line-height: 38px;
+    font-size: 26px;
+    color: #000;
+}
+.main_wrap {
+    background-color: #ececec;
+}
+.main_wrap .content {
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 50px 0 20px;
+}
+.main_wrap .noti_txt {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    font-size: 12px;
+    color: #7c7c7c;
+}
+.main_list:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+.main_list li {
+    float: left;
+}
+.main_list li + li {
+    margin-left: 17px;
+}
+.main_list li .item_link {
+    position: relative;
+    display: block;
+}
+.main_list .img_box {
+    position: relative;
+}
+.main_list .img_box:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.main_list .img_box img {
+    width: 322px;
+    height: 215px;
+}
+.main_list .info {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+    color: #fff;
+    overflow: hidden;
+}
+.main_list .category {
+    font-size: 14px;
+}
+.main_list .title {
+    margin-top: 3px;
+    font-size: 18px;
+    line-height: 22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+서브 리스트 제작하기
+HTML 실습
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <!-- http://meyerweb.com/eric/tools/css/reset/ -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style_1.css">
+    <title>네이버TV: 간단한 이미지 리스트</title>
+</head>
+<body>
+    <div class="wrap">
+        <h1>TOP100</h1>
+        <div class="main_wrap">
+            <div class="content">
+                <p class="noti_txt">8.21 오전 9시 ~ 오전 10시 기준 (재생수, 재생시간, 좋아요)</p>
+                <ol class="main_list">
+                    <li>
+                        <a href="#" class="item_link">
+                            <div class="img_box">
+                                <img src="./img/thumb_image_large.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <span class="category">산악스키</span>
+                                <p class="title">오스트리아 최대의 산악스키 연맹, 산악스키 아마데! 5개 지역에 걸쳐있고, 총 25여개의 슬로프 길이</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <div class="img_box">
+                                <img src="./img/thumb_image_large.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <span class="category">산악스키</span>
+                                <p class="title">오스트리아 최대의 산악스키 연맹, 산악스키 아마데! 5개 지역에 걸쳐있고, 총 25여개의 슬로프 길이</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <div class="img_box">
+                                <img src="./img/thumb_image_large.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <span class="category">산악스키</span>
+                                <p class="title">오스트리아 최대의 산악스키 연맹, 산악스키 아마데! 5개 지역에 걸쳐있고, 총 25여개의 슬로프 길이</p>
+                            </div>
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="sub_wrap">
+            <ol class="sub_list" start="4">
+                    <li>
+                        <a href="#" class="item_link">
+                            <img src="./img/thumb_image.jpg" alt="">
+                        </a>
+                        <div class="info">
+                            <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                            <a href="#" class="category_link">마라톤</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <img src="./img/thumb_image.jpg" alt="">
+                        </a>
+                        <div class="info">
+                            <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                            <a href="#" class="category_link">마라톤</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <img src="./img/thumb_image.jpg" alt="">
+                        </a>
+                        <div class="info">
+                            <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                            <a href="#" class="category_link">마라톤</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <img src="./img/thumb_image.jpg" alt="">
+                        </a>
+                        <div class="info">
+                            <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                            <a href="#" class="category_link">마라톤</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <img src="./img/thumb_image.jpg" alt="">
+                        </a>
+                        <div class="info">
+                            <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                            <a href="#" class="category_link">마라톤</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <img src="./img/thumb_image.jpg" alt="">
+                        </a>
+                        <div class="info">
+                            <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                            <a href="#" class="category_link">마라톤</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <img src="./img/thumb_image.jpg" alt="">
+                        </a>
+                        <div class="info">
+                            <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                            <a href="#" class="category_link">마라톤</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <img src="./img/thumb_image.jpg" alt="">
+                        </a>
+                        <div class="info">
+                            <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                            <a href="#" class="category_link">마라톤</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <img src="./img/thumb_image.jpg" alt="">
+                        </a>
+                        <div class="info">
+                            <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                            <a href="#" class="category_link">마라톤</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <img src="./img/thumb_image.jpg" alt="">
+                        </a>
+                        <div class="info">
+                            <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                            <a href="#" class="category_link">마라톤</a>
+                        </div>
+                    </li>
+                </ol>
+        </div>
+    </div>
+</body>
+</html>
+  
+
+CSS 실습
+
+@charset "UTF-8";
+
+/* 기본 스타일 */
+body {
+    font-family: Dotum,'돋움', Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 18px;
+    color: #3c3c3c;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+    vertical-align: top;
+}
+img {
+    vertical-align: top;
+}
+h1 {
+    overflow: hidden;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px 0;
+    line-height: 38px;
+    font-size: 26px;
+    color: #000;
+}
+.main_wrap {
+    background-color: #ececec;
+}
+.main_wrap .content {
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 50px 0 20px;
+}
+.main_wrap .noti_txt {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    font-size: 12px;
+    color: #7c7c7c;
+}
+.main_list:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+.main_list li {
+    float: left;
+}
+.main_list li + li {
+    margin-left: 17px;
+}
+.main_list li .item_link {
+    position: relative;
+    display: block;
+}
+.main_list .img_box {
+    position: relative;
+}
+.main_list .img_box:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.main_list .img_box img {
+    width: 322px;
+    height: 215px;
+}
+.main_list .info {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+    color: #fff;
+    overflow: hidden;
+}
+.main_list .category {
+    font-size: 14px;
+}
+.main_list .title {
+    margin-top: 3px;
+    font-size: 18px;
+    line-height: 22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.sub_wrap {
+    margin-top: 30px;
+}
+.sub_list {
+    width: 1000px;
+    margin: 0 auto;
+}
+.sub_list:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+.sub_list li {
+    float: left;
+    width: 188px;
+    margin-bottom: 40px;
+}
+.sub_list li + li {
+    margin-left: 15px;
+}
+.sub_list li:nth-child(5n+1) {
+    margin-left: 0;
+}
+.sub_list .item_link {
+    display: block;
+    position: relative;
+}
+.sub_list .item_link:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+.sub_list .item_link img {
+    width: 188px;
+    height: 141px;
+}
+.sub_list .info {
+    height: 79px;
+    margin-top: 10px;
+    padding: 5px;
+}
+.sub_list .title {
+    display: -webkit-box;
+    overflow: hidden;
+    max-height: 36px;
+    font-size: 15px;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    word-break: break-all;
+    color: #090909;
+}
+.sub_list .category_link {
+    display: block;
+    padding-top: 3px;
+    font-size: 12px;
+    color: #7ba7df;
+}
+ 
+
+요약정리 
+
+ 
+
+이미지 리스트는 float:left; 속성을 사용하여 블록요소를 좌측으로 이어붙게 만들었습니다.
+
+float을 사용할 경우 부모 요소가 자식 높이 값을 인지할 수 있도록 가상 선택자 :after에 clear 속성 적용하여 float을 해제하는 방법에 대해 알아보았습니다.
+
+ 
+
+그리고 말줄임 처리를 하기 위해 고정 너비 값을 입력한 후 text-overflow, overflow, white-space 속성을 사용하였습니다. 여러줄 말줄임의 경우 webkit 계열 브라우저와 ie에서 적용될 수 있도록 각 브라우저를 위한 코드에 대해서도 알아보았습니다.
+
+마지막으로 액자 효과를 주기 위해 가상 선택자와 position을 이용하여 섬네일 위로 외곽선을 노출하고, 반투명한 배경을 적용을 위해 rgba 이용한 컬러와 투명도 적용해 보았습니다. 
+
+제작 화면
+주요 기능 
+
+메인, 서브 리스트에 방송 순위, 랭크/좋아요 아이콘 추가
+서브 리스트는 마우스 오버 시 '나중에 보기' 버튼 노출 처리
+스타일 정보
+
+메인/서브 리스트 - 랭크 상승: 15px/#f82850, 랭크 하락: 15px/#1996ff, 랭크 유지: (텍스트 미노출) 
+메인 리스트 -  순위 폰트: 40px/#fff, 좋아요 폰트: 14px/#fff
+서브 리스트 -  순위 폰트: 22px/#3c3c3c, 좋아요 폰트: 14px/#3c3c3c
+서브 리스트 - 재생시간 폰트: 11px/#fff, 재생시간 배경색: #000(투명도 70%)
+주요 태그 및 속성 
+
+HTML
+div, span, a
+CSS
+display, position, margin, background, :before, :after, :hover
+
+1. 아이콘 상태 변경
+(codepen 코드 확인하기)
+
+ 
+
+[HTML]
+
+<div class="change"><span class="blind">첫째</span></div>
+<div class="change up"><span class="blind">둘째</span></div>
+<div class="change down"><span class="blind">셋째</span></div>
+html 구조를 먼저 살펴보겠습니다.
+
+3개의 div가 있습니다.
+
+change 클래스가 공통으로 들어가있고, 두번째, 세번째에 up, down 클래스가 추가적으로 들어가 있습니다.
+
+또한 span에 blind 클래스가 들어가 있는 텍스트가 있는데 우측 결과 화면에서는 텍스트가 노출되지 않고 있습니다.
+
+ 
+
+[CSS]
+
+.change {
+  float: left;
+  padding: 10px;
+  text-align: center;
+}
+.change:after {
+  display: block;
+  width: 100px;
+  height: 100px;
+  content: '';
+  border: 1px solid gray;
+  background-color: pink;
+}
+.up:after {
+  background: url(https://image.flaticon.com/icons/png/512/187/187142.png) no-repeat;
+  background-size: cover;
+}
+.down:after {
+  background: url(https://image.flaticon.com/icons/png/512/187/187154.png) no-repeat;
+  background-size: cover;
+}
+/* IR(*Image Replacement) 처리 */
+.blind {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+}
+다음으로 css를 살펴보겠습니다.
+
+up, down 클래스 여부에 따라 이미지가 노출될 수 있도록 가상 선택자 :after를 사용하여 Backgroud 이미지를 배경으로 입력하였습니다. 
+
+blind는 클래스는 보통 html 구조에는 있지만 결과에는 영향을 주지 않도록 텍스트를 숨기기 위해 사용합니다.
+
+보통 접근성 이미지 대체효과(IR)를 주기 위해 실무에서 사용하는 방법이니 참고하시기 바랍니다.
+
+ 
+
+2. 마우스 오버 시 버튼 노출
+
+(codepen 코드 확인하기)
+
+ 
+
+[HTML]
+
+<div class="box test1">
+  <a href="#" class="img_link">
+    <img src="https://image.flaticon.com/icons/png/512/124/124027.png" width="100" height="100" alt="">
+    <span class="alert">99</span>
+  </a>
+  <a href="#" class="del_link">x</a>
+</div>
+
+<div class="box test2">
+  <a href="#" class="img_link">
+    <img src="https://image.flaticon.com/icons/png/512/124/124027.png" width="100" height="100" alt="">
+    <span class="alert">99</span>
+  </a>
+  <a href="#" class="del_link">x</a>
+</div>
+html 구조를 먼저 살펴보겠습니다.
+
+2개의 이미지를 가지는 박스가 있습니다. 이 박스는 링크 요소인 <a> 태그를 총 2개씩 가지고 있습니다.
+
+전체 이미지는 버튼으로 되어 있으며 오버 시 이미지 위로 노출되는 x 버튼이 노출됩니다.
+
+ 
+
+[CSS]
+
+.box {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+.box + .box {
+  margin-top: 30px;
+}
+.img_link {
+  position: relative;
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+}
+.alert {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  padding: 0 10px;
+  font-size: 12px;
+  line-height: 18px;  
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.del_link {
+  display: none;
+  position: absolute;
+  top:0;
+  right: 0;
+  padding: 5px 10px;
+  font-size: 14px;
+  color: #fff;
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.test1 .img_link:hover + .del_link {
+	display: block;
+}
+.test2:hover > .del_link {
+	display: block;
+}
+박스를 이미지 위로 알림 숫자가 노출될 수 있도록 box 클래스에 position: relative을 입력하고, 
+
+span.alert 클래스에는 position: absolute와 right, bottom 속성을 이용하여 위치를 설정합니다.
+
+박스를 마우스 오버 시 우측 상단에서 '닫기 버튼'이 노출될 수 있도록
+
+a.del_link 클래스에도 position: absolute를 사용하여 박스 우측 상단에 노출될 수 있도록 위치를 설정합니다.
+
+그리고 마우스 오버 전에는 비노출 상태여야 하므로 display: none을 입력하여 '닫기 버튼'이 안 보이게 합니다.
+
+ 
+
+첫 번째 박스는 a.img_link에 :hover 선택자를 사용하여 마우스 오버 시 닫기 버튼 노출되어야 하므로
+
+인접 형제 선택자를 사용하여 a.del_link에 display: block으로 상태를 변경하였습니다.
+
+그럴 경우 박스 이미지 오버 시 닫기 버튼이 노출되지만 닫기 버튼에 마우스 오버 시 껌뻑 거리는 현상이 나타납니다.
+
+이런 현상은 특정 a 태그의 마우스 오버 시 다른 a 태그 마우스 오버 상태가 풀리는 현상입니다.
+
+ 
+
+그래서 두 번째 박스와 같이 a.img_link가 아니라 div.test2에 :hover 선택자를 사용해야 합니다.
+
+그러면 test2 안에 a.img_link, a.del_link 중 하나의 a 태그에 마우스 오버하더라도
+
+부모인 div.test2의 마우스 오버로 인식하기 때문에 버튼이 껌뻑 거리는 현상이 발생하지 않습니다.
+
+ 
+
+위에서 설명드린 내용이 이해가 잘 안되셨다면 반복해서 핵심 코드 강의를 꼭 숙지하시기 바랍니다.
+
+HTML 실습
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <!-- http://meyerweb.com/eric/tools/css/reset/ -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style_2.css">
+    <title>네이버TV: 간단한 이미지 리스트</title>
+</head>
+<body>
+    <div class="wrap">
+        <h1>TOP100</h1>
+        <div class="main_wrap">
+            <div class="content">
+                <p class="noti_txt">8.21 오전 9시 ~ 오전 10시 기준 (재생수, 재생시간, 좋아요)</p>
+                <ol class="main_list">
+                    <li>
+                        <a href="#" class="item_link">
+                            <div class="img_box">
+                                <img src="./img/thumb_main.jpg" alt="">
+                            </div>
+                            <div class="info_wrap">
+                                <div class="rank">
+                                    <span class="num"><span class="blind">랭킹</span>1</span>
+                                    <span class="change up">3<span class="blind">상승</span></span>
+                                </div>
+                                <div class="info">
+                                    <span class="category">산악스키</span>
+                                    <p class="title">오스트리아 최대의 산악스키 연맹, 산악스키 아마데! 5개 지역에 걸쳐있고, 총 25여개의 슬로프 길이</p>
+                                    <span class="like"><span class="blind">좋아요</span>99,999</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <div class="img_box">
+                                <img src="./img/thumb_main.jpg" alt="">
+                            </div>
+                            <div class="info_wrap">
+                                <div class="rank">
+                                    <span class="num"><span class="blind">랭킹</span>2</span>
+                                    <span class="change down">3<span class="blind">하락</span></span>
+                                </div>
+                                <div class="info">
+                                    <span class="category">산악스키</span>
+                                    <p class="title">오스트리아 최대의 산악스키 연맹, 산악스키 아마데! 5개 지역에 걸쳐있고, 총 25여개의 슬로프 길이</p>
+                                    <span class="like"><span class="blind">좋아요</span>99,999</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="item_link">
+                            <div class="img_box">
+                                <img src="./img/thumb_main.jpg" alt="">
+                            </div>
+                            <div class="info_wrap">
+                                <div class="rank">
+                                    <span class="num"><span class="blind">랭킹</span>3</span>
+                                    <span class="change keep"><span class="blind">유지</span></span>
+                                </div>
+                                <div class="info">
+                                    <span class="category">산악스키</span>
+                                    <p class="title">오스트리아 최대의 산악스키 연맹, 산악스키 아마데! 5개 지역에 걸쳐있고, 총 25여개의 슬로프 길이</p>
+                                    <span class="like"><span class="blind">좋아요</span>99,999</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="sub_wrap">
+            <ol class="sub_list">
+                    <li>
+                        <div class="img_wrap">
+                            <a href="#" class="item_link">
+                                <img src="./img/thumb_sub.jpg" alt="">
+                                <span class="time"><span class="blind">재생시간</span>99:99</span>
+                            </a>
+                            <a href="#" class="watch_later_link"><span class="blind">나중에 보기</span></a>
+                        </div>
+                         <div class="info_wrap">
+                            <div class="rank">
+                                <span class="num"><span class="blind">랭킹</span>4</span>
+                                <span class="change up">3<span class="blind">상승</span></span>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                                <a href="#" class="category_link">마라톤</a>
+                                <span class="like"><span class="blind">좋아요</span>99,999</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img_wrap">
+                            <a href="#" class="item_link">
+                                <img src="./img/thumb_sub.jpg" alt="">
+                                <span class="time"><span class="blind">재생시간</span>99:99</span>
+                            </a>
+                            <a href="#" class="watch_later_link"><span class="blind">나중에 보기</span></a>
+                        </div>
+                        <div class="info_wrap">
+                            <div class="rank">
+                                <span class="num"><span class="blind">랭킹</span>5</span>
+                                <span class="change down">2<span class="blind">하락</span></span>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                                <a href="#" class="category_link">마라톤</a>
+                                <span class="like"><span class="blind">좋아요</span>99,999</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img_wrap">
+                            <a href="#" class="item_link">
+                                <img src="./img/thumb_sub.jpg" alt="">
+                                <span class="time"><span class="blind">재생시간</span>99:99</span>
+                            </a>
+                            <a href="#" class="watch_later_link"><span class="blind">나중에 보기</span></a>
+                        </div>
+                        <div class="info_wrap">
+                            <div class="rank">
+                                <span class="num"><span class="blind">랭킹</span>6</span>
+                                <span class="change keep"><span class="blind">유지</span></span>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                                <a href="#" class="category_link">마라톤</a>
+                                <span class="like"><span class="blind">좋아요</span>99,999</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img_wrap">
+                            <a href="#" class="item_link">
+                                <img src="./img/thumb_sub.jpg" alt="">
+                                <span class="time"><span class="blind">재생시간</span>99:99</span>
+                            </a>
+                            <a href="#" class="watch_later_link"><span class="blind">나중에 보기</span></a>
+                        </div>
+                        <div class="info_wrap">
+                            <div class="rank">
+                                <span class="num"><span class="blind">랭킹</span>7</span>
+                                <span class="change up">3<span class="blind">상승</span></span>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                                <a href="#" class="category_link">마라톤</a>
+                                <span class="like"><span class="blind">좋아요</span>99,999</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img_wrap">
+                            <a href="#" class="item_link">
+                                <img src="./img/thumb_sub.jpg" alt="">
+                                <span class="time"><span class="blind">재생시간</span>99:99</span>
+                            </a>
+                            <a href="#" class="watch_later_link"><span class="blind">나중에 보기</span></a>
+                        </div>
+                        <div class="info_wrap">
+                            <div class="rank">
+                                <span class="num"><span class="blind">랭킹</span>8</span>
+                                <span class="change up">3<span class="blind">상승</span></span>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                                <a href="#" class="category_link">마라톤</a>
+                                <span class="like"><span class="blind">좋아요</span>99,999</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img_wrap">
+                            <a href="#" class="item_link">
+                                <img src="./img/thumb_sub.jpg" alt="">
+                                <span class="time"><span class="blind">재생시간</span>99:99</span>
+                            </a>
+                            <a href="#" class="watch_later_link"><span class="blind">나중에 보기</span></a>
+                        </div>
+                          <div class="info_wrap">
+                            <div class="rank">
+                                <span class="num"><span class="blind">랭킹</span>9</span>
+                                <span class="change up">3<span class="blind">상승</span></span>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                                <a href="#" class="category_link">마라톤</a>
+                                <span class="like"><span class="blind">좋아요</span>99,999</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img_wrap">
+                            <a href="#" class="item_link">
+                                <img src="./img/thumb_sub.jpg" alt="">
+                                <span class="time"><span class="blind">재생시간</span>99:99</span>
+                            </a>
+                            <a href="#" class="watch_later_link"><span class="blind">나중에 보기</span></a>
+                        </div>
+                        <div class="info_wrap">
+                            <div class="rank">
+                                <span class="num"><span class="blind">랭킹</span>10</span>
+                                <span class="change up">3<span class="blind">상승</span></span>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                                <a href="#" class="category_link">마라톤</a>
+                                <span class="like"><span class="blind">좋아요</span>99,999</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img_wrap">
+                            <a href="#" class="item_link">
+                                <img src="./img/thumb_sub.jpg" alt="">
+                                <span class="time"><span class="blind">재생시간</span>99:99</span>
+                            </a>
+                            <a href="#" class="watch_later_link"><span class="blind">나중에 보기</span></a>
+                        </div>
+                        <div class="info_wrap">
+                            <div class="rank">
+                                <span class="num"><span class="blind">랭킹</span>11</span>
+                                <span class="change up">3<span class="blind">상승</span></span>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                                <a href="#" class="category_link">마라톤</a>
+                                <span class="like"><span class="blind">좋아요</span>99,999</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img_wrap">
+                            <a href="#" class="item_link">
+                                <img src="./img/thumb_sub.jpg" alt="">
+                                <span class="time"><span class="blind">재생시간</span>99:99</span>
+                            </a>
+                            <a href="#" class="watch_later_link"><span class="blind">나중에 보기</span></a>
+                        </div>
+                        <div class="info_wrap">
+                            <div class="rank">
+                                <span class="num"><span class="blind">랭킹</span>12</span>
+                                <span class="change up">3<span class="blind">상승</span></span>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                                <a href="#" class="category_link">마라톤</a>
+                                <span class="like"><span class="blind">좋아요</span>99,999</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img_wrap">
+                            <a href="#" class="item_link">
+                                <img src="./img/thumb_sub.jpg" alt="">
+                                <span class="time"><span class="blind">재생시간</span>99:99</span>
+                            </a>
+                            <a href="#" class="watch_later_link"><span class="blind">나중에 보기</span></a>
+                        </div>
+                        <div class="info_wrap">
+                            <div class="rank">
+                                <span class="num"><span class="blind">랭킹</span>13</span>
+                                <span class="change up">3<span class="blind">상승</span></span>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="title">국제육상경기연맹으로부터 라벨을 부여받은 국내의 단 두 개의 마라톤 대회 중 실버라벨을 5년 연속 유지하고 있는 대구국제마라톤대회!</a>
+                                <a href="#" class="category_link">마라톤</a>
+                                <span class="like"><span class="blind">좋아요</span>99,999</span>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+        </div>
+    </div>
+</body>
+</html>
+  
+
+CSS 실습
+
+@charset "UTF-8";
+
+/* 기본 스타일 */
+body {
+    font-family: Dotum,'돋움', Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 18px;
+    color: #3c3c3c;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+    vertical-align: top;
+}
+img {
+    vertical-align: top;
+}
+.blind {
+    overflow: hidden;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+}
+
+/* 스타일 선언 */
+h1 {
+    overflow: hidden;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px 0;
+    line-height: 38px;
+    font-size: 26px;
+    color: #000;
+}
+.main_wrap {
+    background-color: #ececec;
+}
+.main_wrap .content {
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 50px 0 20px;
+}
+.main_wrap .noti_txt {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    font-size: 12px;
+    color: #7c7c7c;
+}
+.main_list:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+.main_list li {
+    float: left;
+}
+.main_list li + li {
+    margin-left: 17px;
+}
+.main_list li .item_link {
+    position: relative;
+    display: block;
+}
+.main_list .img_box {
+    position: relative;
+}
+.main_list .img_box:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.main_list .img_box img {
+    width: 322px;
+    height: 215px;
+}
+.main_list .info_wrap {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+    color: #fff;
+    overflow: hidden;
+}
+.main_list .info {
+    margin-left: 40px;
+}
+.main_list .rank {
+    position: absolute;
+    top: -5px;
+    text-align: center;
+}
+.main_list .rank .num {
+    display: block;
+    font-size: 40px;
+    line-height: 42px;
+}
+.main_list .rank .change {
+    display: block;
+    margin-top: 11px;
+}
+.main_list .rank .change:before {
+    display: inline-block;
+    content: '';
+    margin-right: 3px;
+}
+.rank .up {
+    color: #f82850;
+}
+.rank .down {
+    color: #1996ff;
+}
+.rank .up:before {
+    width: 7px;
+    height: 10px;
+    background: url(./img/rank_up.png) no-repeat;
+}
+.rank .down:before {
+    width: 7px;
+    height: 10px;
+    background: url(./img/rank_down.png) no-repeat;
+}
+.rank .keep:before {
+    width: 8px;
+    height: 2px;
+    padding-bottom: 4px;
+    background: url(./img/rank_keep.png) no-repeat;
+}
+.main_list .category {
+    font-size: 14px;
+}
+.main_list .title {
+    margin-top: 3px;
+    font-size: 18px;
+    line-height: 22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.main_list .like {
+    position: relative;
+    display: block;
+    margin-top: 5px;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 20px;
+}
+.main_list .like:before {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    content: '';
+    width: 14px;
+    height: 15px;
+    background: url(./img/like_large.png) no-repeat;
+}
+.sub_wrap {
+    margin-top: 30px;
+}
+.sub_list {
+    width: 1000px;
+    margin: 0 auto;
+}
+.sub_list:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+.sub_list li {
+    float: left;
+    width: 188px;
+    margin-bottom: 40px;
+}
+.sub_list li + li {
+    margin-left: 15px;
+}
+.sub_list li:nth-child(5n+1) {
+    margin-left: 0;
+}
+.sub_list .img_wrap {
+    position: relative;
+}
+.sub_list .item_link {
+    display: block;
+    position: relative;
+}
+.sub_list .item_link:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+.sub_list .item_link img {
+    width: 188px;
+    height: 141px;
+}
+.sub_list .time {
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    height: 18px;
+    padding: 0 7px 0;
+    font-size: 11px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.sub_list .watch_later_link {
+    display: none;
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    width: 45px;
+    height: 45px;
+    background: url(./img/later_watch.png) no-repeat 0 0;
+}
+.sub_list .img_wrap:hover .watch_later_link {
+    display: block;
+}
+.sub_list .img_wrap:hover .time {
+    display: none;
+}
+.sub_list .info_wrap {
+    margin-top: 10px;
+    position: relative;
+}
+.sub_list .info {
+    height: 79px;
+    margin-left: 30px;
+}
+.sub_list .title {
+    display: -webkit-box;
+    overflow: hidden;
+    max-height: 36px;
+    font-size: 15px;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    word-break: break-all;
+    color: #090909;
+}
+.sub_list .category_link {
+    display: block;
+    padding-top: 3px;
+    font-size: 12px;
+    color: #7ba7df;
+}
+.sub_list .rank {
+    position: absolute;
+    top: 0;
+    bottom: 1px;
+    width: 20px;
+    text-align: center;
+}
+.sub_list .rank .num {
+    display: block;
+    font-size: 22px;
+    line-height: 24px;
+}
+.sub_list .rank .change {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.sub_list .rank .change:before {
+    display: inline-block;
+    content: '';
+    margin-right: 3px;
+}
+.sub_list .like {
+    position: absolute;
+    bottom: 0;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 20px;
+}
+.sub_list .like:before {
+    position: absolute;
+    top: 6px;
+    left: 0;
+    content: '';
+    width: 11px;
+    height: 10px;
+    background: url(./img/like.png) no-repeat;
+}
+ 
+
+요약정리 
+
+ 
+
+랭크 아이콘 변경을 위해 up, down 클래스를 추가하였으며, 클래스에 따른 이미지는 가상 선택자 :after를 사용하여 Backgroud 이미지가 변경될 수 있도록 적용하였습니다.
+
+a 태그를 2개 이상을 갖고 있는 구조는 a태그를 갖는 부모 구조에 마우스 오버 선택자인 :hover를 적용해야 마우스 오버 이벤트 중첩 문제를 방지할 수 있습니다. 

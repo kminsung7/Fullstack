@@ -1,0 +1,32 @@
+* .git 디렉토리 안에 버전관리할 파일들이 저장된다
+
+* 용어
+  Working tree : 우리가 파일을 수정하는 곳 (작업을 하는 디렉토리)
+  Staging area : 버전을 만드려고 하는 파일들을 올려두는 곳
+  Repository : commit이 완료된 버전이 확정되어 만들어진 저장소
+  commits : 버전과 같은의미 (commit을 하면 버전이 만들어짐)
+
+* git log시 나오는 HEAD는 포인터(현재 가리키는 것) master는 마지막 버전을 의미
+
+* 초기 설정config
+  초기 설정은 author 와 committer 가 있는데 author는 최초 코드를 짠 역할이고 committer는 새롭게 올라온 버전의
+  파일들을 commit해주는 역할이라고 보면된다
+  초기 설정에는 반드시 해주어야 할 설정이 있다
+  현재 git을 사용하는자가 누군지 지정해주는 것인데 system,global,local 세가지가 있다 system은 모든 사용자를
+  의미하고 global은 한 사용자가 모든 저장소를 관리 하는것 local은 한 사용자가 하나의 저장소만을 관리 하는것이다
+
+git init . : 현재 디렉토리 git 디렉토리로 변경
+git status : 현재 Working tree의 상태가 어떤지 알려주라는 명령어
+git add : 버전관리 할 파일을 Staging area에 올림
+gir add -u : 수정된것만 add해주는 기능
+git commit : 버전을 만들어라 (repository)에 저장
+git log : 버전 기록 
+git log --stat : 연루된 파일들과 몇개의 파일과 몇줄이 바뀌었는지 알 수 있다
+git diff : 마지막 버전과 Working tree 사이의 변화가 무엇인지 알려줌
+git reset --hard : 다음 버전으로 commit하기전에 수정한 내용을 복귀시켜 수정되기 전 마지막 버전의 상태로 돌려준다
+git reset --hard 주솟값 : 주솟값 버전으로 돌아가며 그 버전 이후의 것은 삭제한다
+git log -p : 마지막 버전과 그 바로 이전의 버전 사이의 차이를 알려준다
+git checkout 주솟값 : HEAD가 주솟값에 해당하는 버전이나 branch를 가리킨다
+git checkout master : master가 가장 최신버전이니 가장 최신버전으로 돌아간다
+git commit -am : add와 commit을 동시에 수행 단, 최소 한번 add가 된 상태여야 한다
+git revert 주솟값 : 마지막 버전을 삭제시키지 않고 바로 전 버전으로 돌아간다

@@ -1,0 +1,23 @@
+Git branch&conflict
+
+* 용어 
+  merge : 병합 (주로 branch에 있는 내용과 master에 있는내용을 병합할때 사용)
+  base : 공통 부모 (branch들과 master의 공통 부모를 의미)
+
+* branch는 나뭇가지를 의미 한다 실제로 파일이나 폴더를 더 생성하지 않고도 가상의 폴더나 파일이 가상의 branch안에 형성된  다
+* HEAD는 branch (master, google)를 보통 직접 가리키지만, commit를 가리킬 수도 있으며 이때는 detached 상태라  고 부른다
+
+checkout은 repository (≒HEAD)를 바꾸는 것이다.
+git log --all --graph --oneline : 모든 브랜치의 마지막 버전을 한 줄로 간략하게 그래프로 부모자식관계를 나타내줌
+git branch : branch 목록 보여줌
+git branch 이름 : 현재 head가 가리키는 버전으로 '이름' 에 해당 하는 branch를 생성해줌
+git checkout branch|주소값 : head가 branch나 주소값으로 이동
+git commit --amend : 해당 버전의 이름 수정
+git merge branch명 : 현재 head가 가리키는 branch에 "branch명" 버전을 병합하여 새로운 버전을 만든다
+
+* branch 와 branch를 병합할때 파일명이 다르면 그냥 병합 된다
+  만약 파일명이 같을 경우에는 두가지로 나뉜다 
+  1.병합할 각각의 branch의 파일 내부의 내용이 수정할 위치가 다른경우 git이 알아서 자동으로
+  병합 해준다 
+  2.병합할 각각의 branch의 파일 내부의 내용이 수정할 위치가 같은경우는 conflict(충돌)가 발생하며
+  같은 부분이 수정된 곳만큼은 사용자에게 알려주고 나머지 부분은 자동 병합 해준다

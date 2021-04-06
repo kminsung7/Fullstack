@@ -1,0 +1,16 @@
+*gitlab 처음 저장소 만들때 코드
+ git clone https://gitlab.com/kminsung7/my-repo.git
+ cd my-repo
+ touch README.md
+ git add README.md
+ git commit -m "add README"
+ git push -u origin master
+
+git remote add '원격저장소별명' '원격저장소 주소' : 지역 저장소와 원격 저장소 연결
+git remote : 원격 저장소 목록
+git remote -v : 원격 저장소 별명의 실제 주소값 표기
+git push '원격저장소별명' : 연결된 원격 저장소에 업로드
+git push --set-upstream '원격저장소별명' '업로드할브랜치' : 백업할 원격 저장소를 고를때
+git clone '원격저장소주소' : 원격저장소에 있는 것이 완전 비어 있는 제2 지역저장소에 복제됨
+git clone '원격저장소주소' '폴더명' : 폴더명으로 폴더가 생성된 곳에 복제됨
+git pull : 갱신된 원격저장소의 내용을 main지역 저장소로 동기화 하고 싶을때

@@ -1,0 +1,302 @@
+들어가기 전에
+
+다단  레이아웃은 1단 레이아웃과 함께 매우 대표적인 레이아웃 형태중에 하나입니다.
+
+
+위의 예시 이미지와 같이 콘텐츠의 영역이 2개 또는 그 이상의 행(column)으로 나눠진 레이아웃을 열의 갯수의 따라 2단 레이아웃, 3단 레이아웃으로 부르고 있으며 이런 열의 갯수에 따른 레이아웃들을 통틀어서 다단 레이아웃이라고 부르고 있습니다.
+
+과거에는 다단 레이아웃의 짜임새가 테이블과 비슷하고 PC에서만 고정적인 사이즈로 표현을 했기 때문에 <table>태그를 이용하여 레이아웃을 만드는 방법이 유행을 했습니다. 하지만  웹표준이 발표되면서 현재는 <table> 태그로 레이아웃을 제작하는 사이트는 찾아보기 힘듭니다.
+
+ 
+
+다단 레이아웃 형태를 가진 사이트들
+
+(네이버 뮤직 : 2단)  https://music.naver.com/home/index.nhn
+(네이버 지식인 : 2단)  https://kin.naver.com/index.nhn
+(네이버 날씨 : 3단) https://weather.naver.com/
+
+제작가이드
+
+스크립트 
+2단 레이아웃 가이드
+ 주요 기능 
+
+콘텐츠의 행(column)이 두개를 갖는다.
+콘텐츠와 사이드영역의 구분선을 갖는다.
+구분선은 헤더와 푸터에 항상 맞닿는다. 
+스타일 정보
+
+콘텐츠 영역 가로길이: 500px
+사이드 영역 가로길이: 300px
+주요 태그 및 속성 
+
+HTML
+div
+CSS
+float
+clear
+display: table
+display: table-cell
+
+
+2단 레이아웃 제작
+ HTML 실습
+
+<div class="wrap">
+    <div class="header">header</div>
+    <div class="content">content</div>
+    <div class="aside">aside</div> <!-- 사이드영역 추가 -->
+    <div class="footer">footer</div>
+</div>
+우선은 1단 레이아웃과 같이 각 항목을 생성해줍니다. 2단 메뉴에서는 사이드영역이 추가되므로 aside라는 클래스명을 가진 <div>를 추가했습니다.
+
+물론 이렇게 만들고 적당한 css코드를 추가하여 원하는 레이아웃의 형태를 구성할 수도 있겠지만 저희는 이번 실습에서 float과 display의 table속성을 이용하여 실습을 진행할 것이기 때문에 각 영역만 나열된 형태로는 원하는 레이아웃의 형태를 잡을 수 없습니다.
+
+우리는 여기서 행(coulmn)을 나누게 될 영역들을 container라는 클래스명을 가진 <div>로 묶어주겠습니다. 그렇게 된 최종 html은 아래와 같습니다.
+
+<div class="wrap">
+    <div class="header">header</div>
+    <div class="container"> <!-- content와 aside의 묶음 영역 추가 -->
+        <div class="content">content</div>
+        <div class="aside">aside</div> 
+    </div>
+    <div class="footer">footer</div>
+</div>
+ 
+
+CSS 실습 (float)
+
+이제 완성된 html에 css코드를 추가하여 우리가 원하는 형태의 레이아웃을 스타일링 해보겠습니다.
+
+1. 사전 스타일 부여
+
+.header {
+    height:100px;
+    background-color: lightgreen;
+}
+.container {
+    width: 800px;
+    margin: 0 auto;
+}
+.content {
+    height: 300px;
+    background-color: lightsalmon;
+}
+.aside {
+    height: 300px;
+    background-color: lightseagreen;
+}
+.footer {
+    height:100px;
+    background-color: cornflowerblue;
+}
+먼저 각 영역에 적당한 높이와 색상을 부여하여  확인하기 쉽도록 하고 1단 레이아웃과 같은 형태로 만들어 주겠습니다. 
+
+2. float 으로 정렬하기
+
+.header {
+    height:100px;
+    background-color: lightgreen;
+}
+.container {
+    width: 800px;
+    margin: 0 auto;
+}
+.content {
+    float: left; /* float */
+    width: 500px; /* 가로사이즈 추가 */
+    height: 300px;
+    background-color: lightsalmon;
+}
+.aside {
+    float: left; /* float */
+    width: 300px; /* 가로사이즈 추가 */
+    height: 300px;
+    background-color: lightseagreen;
+}
+.footer {
+    height:100px;
+    background-color: cornflowerblue;
+}
+float을 이용해 정렬을 하기 위해서 content와 aside 영역에 float:left 속성을 주고 각각의 요구사항에 따라 가로사이즈를 부여했습니다. 
+
+하지만 이것만으로는 float으로 정렬하는 과정이 마무리 되지는 않습니다. 여기까지 따라오셨다면 아마 푸터가 컨텐츠영역의 뒤로 가서 헤더에 붙어버렸을 겁니다. 이제 우리는 float 뒤에 오는 요소(footer)를 float에서 해제해야 합니다.
+
+3. float 해제하기
+
+.header {
+    height:100px;
+    background-color: lightgreen;
+}
+.container {
+    width: 800px;
+    margin: 0 auto;
+}
+.container:after {  /* after를 이용하여 float해제하기 */
+  display: block;
+  clear: both;
+  content: '';
+}
+.content {
+    float: left; 
+    width: 500px; 
+    height: 300px;
+    background-color: lightsalmon;
+}
+.aside {
+    float: left; 
+    width: 300px; 
+    height: 300px;
+    background-color: lightseagreen;
+}
+.footer {
+    height:100px;
+    background-color: cornflowerblue;
+}
+이제 footer가 float영향에서 해제되었습니다. 이렇게 해서 우리가 원하는 모습의 기본 모습이 만들어졌습니다. float을 해제하는 방법은 여러 방법이 있습니다. 각 방법을 상황에 따라 적절하게 이용하시면 됩니다. 
+
+4. 구분선 만들기
+
+.header {
+    height:100px;
+    background-color: lightgreen;
+}
+.container {
+    position: relative; /* position 기준영역 설정 */
+    width: 800px;
+    margin: 0 auto;
+}
+.container:after { 
+  display: block;
+  clear: both;
+  content: '';
+}
+.content {
+    float: left; 
+    width: 500px; 
+    height: 300px;
+    background-color: lightsalmon;
+}
+.aside {
+    float: left; 
+    width: 300px; 
+    height: 300px;
+    background-color: lightseagreen;
+}
+.aside:after{ /* 구분선 만들기 */
+    content:'';
+    position:absolute;
+    right:300px;
+    top: 0;
+    bottom: 0;
+    width:5px;
+    background-color: #000;
+}
+.footer {
+    height:100px;
+    background-color: cornflowerblue;
+}
+구분선을 aside에 after를 이용해서 원하는 위치에 넣어줬습니다. 이 방법외에도 border를 이용한 방법이나 content를 기준으로 after를 이용하는 등 방법은 여러가지가 있을 겁니다.
+
+이번 실습에서 after를 이용하여 가상의 선을 만들고 position을 이용해서 구현한 목적은 헤더와 푸터가 위아래 고정이면서 컨텐츠와 사이드영역 중 한군데만 길어질 때 구분선이 어느 한쪽 영역에 종속되어 있다면 헤더에서부터 푸터까지 이어지는 구분선을 구현할수 없기 때문입니다.
+
+이제 content나 aside 영역에 임의의 높이값을 부여해서 구분선이 제대로 동작하는지 확인해봅시다.
+
+
+최종 css 결과물은 위의 이미지처럼 노출될 것입니다. 마지막 4번에서는 content나 aside에 임의의 높이값(height)을 부여하여 구분선이 헤더와 푸터에 맞닿는지 확인해봅시다.
+CSS 실습 (display: table, table-cell)
+
+이번에는 동일한 html을 가지고 display: table, display: table-cell 속성을 이용하여 레이아웃을 만들어 보겠습니다.
+
+1. 사전 스타일 부여
+
+.header {
+    height:100px;
+    background-color: lightgreen;
+}
+.container {
+    width: 800px;
+    margin: 0 auto;
+}
+.content {
+    height: 300px;
+    background-color: lightsalmon;
+}
+.aside {
+    height: 300px;
+    background-color: lightseagreen;
+}
+.footer {
+    height:100px;
+    background-color: cornflowerblue;
+}
+각 영역에 스타일을 부여해 확인이 편한 상태로 다음 단계를 진행합니다.
+
+2. display: table, display: table-cell 속성으로 정렬하기
+
+.header {
+    height:100px;
+    background-color: lightgreen;
+}
+.container {
+    display: table; /* 부모 요소에 display: table 추가 */
+    width: 800px;
+    margin: 0 auto;
+}
+.content {
+    display: table-cell; /* 자식 요소에 display: table-cell 추가 */
+    width: 500px; /* 가로 사이즈 부여 ( aside가로길이 =  container 가로길이 - content 가로길이) */
+    height: 300px;
+    background-color: lightsalmon;
+}
+.aside {
+    display: table-cell;/* 자식 요소에 display: table-cell 추가 */
+    height: 300px;
+    background-color: lightseagreen;
+}
+.footer {
+    height:100px;
+    background-color: cornflowerblue;
+}
+display: table과 display: table-cell 속성을 테이블과 동일한 효과를 주기 때문에 부모인 container의 가로길이를 부여한 상태에서 한쪽의 가로길이를 안다면 aside의 가로길이는 따로 지정해줄 필요가 없습니다.
+
+3. 구분선 추가
+
+.header {
+    height:100px;
+    background-color: lightgreen;
+}
+.container {
+    display: table; 
+    width: 800px;
+    margin: 0 auto;
+}
+.content {
+    display: table-cell; 
+    width: 495px; /* -5px 하여 추가된 구분선 만큼 빼기 */ 
+    height: 300px;
+    background-color: lightsalmon;
+    border-right: 5px solid #000; /* border를 이용해 구분선 추가 */
+}
+.aside {
+    display: table-cell;
+    height: 300px;
+    background-color: lightseagreen;
+}
+.footer {
+    height:100px;
+    background-color: cornflowerblue;
+}
+구분선의 길이만큼 content의 가로길이에서 빼줘 구분선을 포함한 가로길이가 원래의 가로길이를 넘지 않게 해주었습니다.
+
+이 방법외에도 box-sizing: border-box 속성을 이용해 content의 가로길이가 구분선의 크기까지 포함하도록 만드는 방법도 있습니다.
+
+
+
+이렇게 최종적으로 보여지는 레이아웃은 위와 같은 모습이 됩니다.
+요약정리 
+
+앞서 만들어본 float을 이용한 방법과 비교했을 때 과정이나 코드가 조금더 단순하게 느껴질 수 있습니다. 하지만 마지막 3번을 보듯이 content와 aside에 임의의 높이값을 부여할때 float으로 구현한 것과는 달리 <table>로 만든 표처럼 영역의 높이가 동일하게 부여되는 것을 알 수 있습니다.
+
+레이아웃을 제작할 때는 주어진 조건에 따라서 이런 특성이나 차이점을 잘 고려하여 구현해야 합니다.
+ 

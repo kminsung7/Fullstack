@@ -1,0 +1,815 @@
+들어가기 전에
+
+표를 만들기 위해서는 테이블 태그를 알아야 합니다.
+
+다른 태그들 보다 사용하는 방법이 좀 더 복잡하며, 테이블 태그만의 고유 속성과 렌더링 방식으로 인해 크로스 브라우징이 까다로운 편입니다.
+
+실습을 진행하기 전에 어디서 어떻게 사용되는지 살펴보도록 하겠습니다.
+
+테이블이란?
+
+html에서 테이블 태그는 표를 만들때 사용합니다. 표는 어떤 내용을 일정한 형식과 순서에 따라서 보기 쉽게 나타낸 것으로, 셀 안에 제목과 그에 해당하는 내용들을 입력하기 때문에 다른 태그들 보다 사용하는 방법이 좀 더 복잡한 편입니다.
+
+
+
+테이블과 레이아웃
+
+레이아웃을 구성하기 위해서 테이블 태그를 사용하는 일이 없도록 해야 합니다.
+
+만약 표로 만들어진 UI더라도, 리스트 태그와 같이 다른 태그로 대체할 수 있다면 그렇게 하는 것이 좋습니다.
+
+ 주요 태그 및 속성
+
+scope
+col, row, colgroup, rowgroup
+id, headers
+ 
+
+scope
+
+모든 제목 셀(th)에는 scope 속성을 추가해서 어떤 내용 셀(td)에 대한 것인지 알려주어야 합니다.
+
+scope의 값으로는 col, row, colgroup, rowgroup을 사용할 수 있는데, 같은 열의 제목에는 col, 같은 행의 제목에는 row 값을 추가해 주시면 됩니다.
+
+colgroup과 rowgroup은 같은 방식으로 제목 셀이 속한 열 혹은 행 그룹과 모두 관련이 되어 있을 경우 사용합니다. 보통은 병합된 제목 셀에 주로 사용이 되겠죠?
+
+<table>
+  <col>
+  <colgroup span="2"></colgroup>
+  <colgroup span="2"></colgroup>
+  <tr>
+    <td rowspan="2"></td>
+    <th colspan="2" scope="colgroup">Mars</th>
+    <th colspan="2" scope="colgroup">Venus</th>
+  </tr>
+  <tr>
+    <th scope="col">Produced</th>
+    <th scope="col">Sold</th>
+    <th scope="col">Produced</th>
+    <th scope="col">Sold</th>
+  </tr>
+  <tr>
+    <th scope="row">Teddy Bears</th>
+    <td>50,000</td>
+    <td>30,000</td>
+    <td>100,000</td>
+    <td>80,000</td>
+  </tr>
+  <tr>
+    <th scope="row">Board Games</th>
+    <td>10,000</td>
+    <td>5,000</td>
+    <td>12,000</td>
+    <td>9,000</td>
+  </tr>
+</table>
+ 
+
+id, headers
+
+정말 복잡한 표의 경우에는 id와 headers 속성을 추가하기도 합니다.
+
+모든 th에 id를 추가하고, 내용이라고 생각되는 셀에는 headers를 추가하여 그 값으로 id의 값들을 나열해 주면 됩니다. 
+
+th와 td를 직접 연결해주는 방식이지만 굉장히 복잡하며, ​대부분​ scope 속성만으로 충분히 접근성을 지킬 수 있기 때문에 잘 사용하지 않습니다.
+
+<table>
+<caption>
+    Availability of holiday accommodation
+</caption>
+<thead>
+    <tr>
+        <td></td>
+        <th id="stud" scope="col">Studio</th>
+        <th id="apt" scope="col">Apt</th>
+        <th id="chal" scope="col">Chalet</th>
+        <th id="villa" scope="col">Villa</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <th id="par" colspan="5" scope="colgroup">Paris</th>
+    </tr>
+    <tr>
+        <th headers="par" id="pbed1">1 bedroom</th>
+        <td headers="par pbed1 stud">11</td>
+        <td headers="par pbed1 apt">20</td>
+        <td headers="par pbed1 chal">25</td>
+        <td headers="par pbed1 villa">23</td>
+    </tr>
+</tbody>
+</table>
+
+HTML 실습
+
+table 태그 안에 tr, td를 하나씩 추가하여 셀이 하나인 테이블을 만들고, .wrap DIV로 전체 테이블을 감싸주었습니다. td 안에 .absolute_section이라는 빈 DIV가 바로 position: absolute;로 띄워질 요소이고, td / tr / table / .wrap DIV 에 각각 position: relative;를 적용하였습니다.
+
+<div class="wrap">
+  <table class="td_relative">
+    <caption>td에 relative</caption>
+    <tr>
+      <td class="relative_section">
+        <div class="absolute_section"></div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="wrap">
+  <table class="tr_relative">
+    <caption>tr에 relative</caption>
+    <tr class="relative_section">
+      <td>
+        <div class="absolute_section"></div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="wrap">
+  <table class="table_relative relative_section">
+  <caption>table에 relative</caption>
+    <tr>
+      <td>
+        <div class="absolute_section"></div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="wrap div_relative">
+  <table>
+  <caption>div에 relative</caption>
+    <tr>
+      <td>
+        <div class="relative_section">
+          <div class="absolute_section"></div>
+        </div>
+      </td>
+    </tr>
+  </table>
+ 
+
+CSS 실습
+
+ .position_section과 .relative_section에 position 값을 각각 absolute와 relative로 적용하였고, relative가 적용된 요소에 따라 컨텐츠를 구분하기 위해 컬러값을 다르게 입력하였습니다.
+
+table {
+  border: 1px solid #000;
+  table-layout: fixed;
+  width: 100%;
+  height: 150px;
+  border-collapse: collapse;
+}
+.td_relative {
+  border-color: red;
+}
+.tr_relative {
+  border-color: blue;
+}
+.table_relative {
+  border-color: green;
+}
+
+.wrap {
+  margin: 50px;
+}
+.relative_section {
+  position: relative;
+}
+.absolute_section {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 0;
+  top: 0;
+  background-color: #000;
+}
+.td_relative .absolute_section {
+  background-color: red;
+}
+.tr_relative .absolute_section {
+  background-color: blue;
+}
+.table_relative .absolute_section {
+  background-color: green;
+}
+.div_relative .relative_section {
+  width: 100%;
+  height: 100%;
+}
+ 
+
+실습 결과
+
+브라우저마다 position: relative; 가 적용되는 방식이 다르다는 것을 확인할 수 있습니다.
+
+td에 적용 시, 가장 정상적으로 노출되고 있지만, 요소의 복잡도에 따라 예상치 못한 버그가 발생 할  수 있습니다.
+td 안에 div를 추가하여 적용 시, 일부 브라우저에서 박스가 중앙에 노출되고 있지만, 높이 값과 콘텐츠가 있다면 정상 노출되며 가장 안전한 방법입니다.
+
+
+요약 정리
+
+테이블은 각 요소를 배치하는 틀로 보고, 셀 안에 div를 추가하여 position 요소나 꾸미는 요소는 내부 div에 직접 선언하는 게 좋습니다.
+
+들어가기 전에
+
+크로스 브라우징 외에 테이블 태그가 마크업 하기 까다로운 이유 중 한 가지는 border가 적용되는 방식 때문입니다.
+
+우리는 디자인을 위해 기본 스타일인 border-collapse: separate; 의 값을 주로 collapse; 로 변경하여 스타일을 입힙니다.
+
+두 개의 선이 하나로 합쳐진다면, 셀의 상하좌우 중 어떤 선이 없어지게 될까요?
+
+테이블 렌더링이 되는 방식을 확인하면 쉽게 알 수 있습니다.
+
+주요 태그 및 속성
+
+border-collapse: collapse;
+
+ 
+
+테이블 렌더링
+
+thead, tfoot, tbody로 이루어진 테이블과 셀의 border 컬러를 상하좌우 모두 다르게 주었습니다.
+
+ 
+
+ border-collapse: separate; (기본 값)
+테이블 요소의 선이 모두 살아있는 것을 알 수 있습니다.
+table, thead, tfoot, tbody 순으로 렌더링 됩니다.
+
+border-collapse: collapse; (border 병합)
+table 태그에 적용된 검은색 선과 각 셀의 위쪽 빨간 선과 왼쪽 보라색 선이 없어졌습니다.
+테이블 구조와 상관없이, 선이 병합되면서 우측 하단부터 좌측 상단으로 렌더링 됩니다.
+각 셀은 자신의 왼쪽과 위쪽의 셀에 선이 가려지기 때문에, 왼쪽 보라색 선과 위쪽 빨간 선이 보이지 않습니다.
+
+테이블 레이어
+
+border를 병합했을 경우, table 태그에 적용한 boder는 아예 보이지 않습니다. 그 이유는 테이블 요소들이 table - thead - tbody - tr - th - td 순서대로 레이어처럼 쌓이기 때문입니다.
+
+table이 가장 먼저 그려졌기 때문에, 셀에 적용된 선에 덮여서 보이지 않았던 겁니다.
+
+columes는 colgroup의 col을 말하는데, 여기에 border 혹은 background 스타일을 적용하여 해당하는 열에 일괄 적용할 수 있습니다. 하지만 다른 셀들에 비해 z-index가 낮아서 가려지는 경우가 많아 잘 사용하지 않습니다.
+
+
+요약 정리
+
+테이블이 어떻게 렌더링이 되는지, 레이어가 어떻게 구성되었는지 잘 기억하셔서 원하는 디자인대로 스타일을 입히시길 바랍니다.
+
+ 
+
+ 
+참고자료
+
+w3c table - 17.5.1 Table layers and transparency
+https://www.w3.org
+
+For the purposes of finding the background of each table cell, the different table elements may be thought of as being on six superimposed layers. The background set on an element in one of the layers will only be visible if the layers above it have a transparent background.
+w3c table - 17.6.2.1 Border conflict resolution
+https://www.w3.org
+
+In the collapsing border model, borders at every edge of every cell may be specified by border properties on a variety of elements that meet at that edge (cells, rows, row groups, columns, column groups, and the table itself), and these borders may vary in width, style, and color. The rule of thumb is that at each edge the most "eye catching" border style is chosen, except that any occurrence of the style 'hidden' unconditionally turns the border off.
+
+들어가기 전에
+
+테이블 태그를 이용하여 만들 수 있는 간단한 표를 만들어 보도록 하겠습니다.
+
+셀 병합과 접근성을 위한 속성 그리고 border가 병합될 때 어떤 특징이 있었는지 다시 한번 떠올려 보시길 바랍니다.
+
+지금껏 이론으로 배웠던 테이블 관련 속성들을 직접 실습해 보도록 하겠습니다. 또한 colgroup과 col 태그, table-layout: fixed;에 대해 학습하실 수 있습니다.
+
+주요 기능
+
+연령별, 성별, 조회수, 비율에 대한 데이터 통계 표
+
+ 
+
+스타일 정보
+
+표 너비 : 500px
+각 셀 높이 : 40px
+연령별 성별의 너비 : 90px
+조회수, 비율 텍스트 정렬 : 오른쪽
+ 
+
+주요 태그 및 속성
+
+HTML
+table, caption, colgroup, col, thead, tbody, th, td
+(속성 : scope, rowspan, colspan)
+CSS
+table-layout, border-collapse
+padding, border, color, text-align, background-color
+
+<table>
+<caption>성별, 연령별 분포 목록</caption>
+<thead>
+<tr>
+	<th>연령별</th>
+	<th>성별</th>
+	<th>조회수</th>
+	<th>비율</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<th rowspan="2">전체</th>
+	<th>남</th>
+	<td>0</td>
+	<td>0.0%</td>
+</tr>
+<tr>
+	<th>여</th>
+	<td>0</td>
+	<td>0.0%</td>
+</tr>
+<tr>
+	<th rowspan="2">0-12</th>
+	<th>남</th>
+	<td>0</td>
+	<td>0.0%</td>
+</tr>
+<tr>
+	<th>여</th>
+	<td>0</td>
+	<td>0.0%</td>
+</tr>
+</tbody>
+</table>
+기초 강습에서 배웠던 셀 병합을 위한 rowspan 추가하여, 기본적인 테이블 모양을 만들어 줍니다.
+
+연령별, 성별 데이터를 나타내는 표이기 때문에, tbody 내에서 연령과 성에 해당하는 열의 셀은 th로 처리한 부분을 눈여겨 보시기 바랍니다.
+
+ 
+
+<table>
+<caption>성별, 연령별 분포 목록</caption>
+<colgroup>
+	<col span="2" class="col">
+	<col span="2">
+</colgroup>
+<thead>
+<tr>
+	<th scope="col">연령별</th>
+	<th scope="col">성별</th>
+	<th scope="col" class="th_view">조회수</th>
+	<th scope="col" class="th_rate">비율</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<th rowspan="2" scope="rowgroup">전체</th>
+	<th scope="row" class="th_male">남</th>
+	<td>0</td>
+	<td>0.0%</td>
+</tr>
+<tr>
+	<th scope="row" class="th_female">여</th>
+	<td>0</td>
+	<td>0.0%</td>
+</tr>
+<tr>
+	<th rowspan="2" scope="rowgroup">0-12</th>
+	<th scope="row" class="th_male">남</th>
+	<td>0</td>
+	<td>0.0%</td>
+</tr>
+<tr>
+	<th scope="row" class="th_female">여</th>
+	<td>0</td>
+	<td>0.0%</td>
+</tr>
+</tbody>
+</table>
+접근성을 위해 모든 th에 scope 속성을 추가하고, 연령과 성에 해당하는 열에 width값을 적용하기 위해 <colgloup>과 <col> 태그를 사용하였습니다. 그 외에도 각 셀의 스타일을 제어하기 위해 클래스를 추가합니다.
+
+ 
+
+ 
+CSS 실습
+
+table, td, th {
+	border-collapse: collapse;
+}
+
+table {
+	width: 500px;
+	table-layout: fixed;
+	font-size: 13px;
+}
+
+.col {
+	width: 90px;
+}
+
+th {
+	font-weight: normal;
+}
+
+th, td {
+	border-bottom: 1px solid #e1e1e1;
+}
+
+thead th {
+	padding: 5px 0;
+	border-bottom: 2px solid #000;
+}
+
+tbody td {
+	height: 40px;
+}
+
+.th_view,
+.th_rate,
+tbody td {
+	text-align: right;
+}
+
+.th_male,
+.th_female {
+	background: #f8f8f8;
+}
+ 
+
+요약 정리
+
+<colgroup>, <col>
+
+셀 크기를 조절하여 해당하는 열의 너비를 변경하기도 하지만, colgroup과 col을 이용하기도 합니다. col은 colmns 즉, 테이블의 열을 가리킵니다.
+
+CSS 속성 중 wiidth, background, border를 입력하면 해당하는 열에 모두 적용이 됩니다. 하지만 렌더링 시 레이어 뎁스가 낮은 편이기 때문에, 주로 width를 제어하기 위해 사용합니다.
+
+​예전에는 col width="90" 속성을 직접 추가하는 방법을 썼지만, html5에서 더 이상 지원하지 않기 때문에, ​ 클래스 혹은 style 속성을 추가하여 제어하도록 합니다. ​
+
+열에 대한 스타일 제어가 필요 없거나, 동일하게 스타일을 적용해야 할 경우에는 col에 span 속성을 사용하여 병합이 가능합니다.
+
+<!-- 4개의 열로 이루어진 테이블로, 첫번째 열에 width: 30px; 적용 -->
+<colgroup>
+<col style = "width: 30px">
+<col>
+<col span = "2">
+</colgroup>
+ 
+
+table-layout: fixed;
+
+table에 전체 표의 크기를 지정했을 경우, 각 셀의 너비는 내용과 비례하여 자동 분할됩니다.
+
+내용과 상관없이 균등하게 분할하기 위해서 table-layout: fixed; 속성을 추가하기도 하지만, 성능상의 이슈로 반드시 추가해 주는 것이 좋습니다.
+
+
+
+th, td에서의 콘텐츠 정렬
+
+th에서 text-align: center;
+td에서 text-align: left;
+th, td에서 모두 vertical-align: middle;
+
+들어가기 전에
+
+테이블 태그로 만들어야 하는 대표적인 UI로 달력을 꼽을 수 있습니다.
+
+월요일부터 금요일까지 상단 부분이 제목 셀이고, 그 외 날짜 부분이 내용 셀로 이루어져 있기 때문입니다. 
+
+기념일, 휴일, 음력 등 표시해야할 컨텐츠가 많기 때문에, 셀 안에 DIV 요소를 추가하여 실습을 진행하도록 하겠습니다.
+
+주요 기능
+
+기념일, 휴일, 음력, 이전/다음 달 날짜 표시
+오늘 날짜에 해당하는 셀에 보더 및 배경 색 변경
+ 
+
+스타일 정보
+
+표 전체 너비 : 590px
+셀 너비 : 동일
+요일 셀 높이 : 25px
+날짜 셀 높이 : 80px
+기념일 텍스트 : 말줄임
+ 
+
+주요 태그 및 속성
+
+HTML
+table, caption, thead, tbody, th, td
+(속성 : scope)
+CSS
+table-layout, border-collapse
+padding, border, color, text-align, background-color
+position, margin, vertical-align
+말줄임 (overflow, text-overflow, white-space)
+
+HTML 실습
+
+<table>
+<caption>달력</caption>
+<thead>
+<tr>
+	<th scope="col">월</th>
+	<th scope="col">화</th>
+	<th scope="col">수</th>
+	<th scope="col">목</th>
+	<th scope="col">금</th>
+	<th scope="col">토</th>
+	<th scope="col">일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>
+		<div class="inner">
+			<span class="date">30</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">1</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">2</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">3</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">4</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">5</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">6</span>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td>
+		<div class="inner">
+			<span class="date">7</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">8</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">9</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">10</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">11</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">12</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">13</span>
+		</div>
+	</td>
+</tr>
+</tbody>
+</table>
+저번 실습에서 진행한 것 처럼 접근성을 위한 scope 속성을 추가하여 기본적인 테이블 모양을 만들어 줍니다. 다만 각 셀의 가로 너비가 균일하기 때문에, colgroup과 col 태그는 추가하지 않아도 됩니다.
+
+달력에는 꾸미는 요소들이 많기 때문에 td 셀 안에 inner 라는 클래스를 가진 DIV를 미리 추가해 주시길 바랍니다.
+
+<table>
+<caption>달력</caption>
+<thead>
+<tr>
+	<th scope="col">일</th>
+	<th scope="col">월</th>
+	<th scope="col">화</th>
+	<th scope="col">수</th>
+	<th scope="col">목</th>
+	<th scope="col">금</th>
+	<th scope="col">토</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>
+		<div class="inner">
+			<span class="date dimmed">30</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">1</span>
+			<em class="text anniversary">국군의 날국군의 날국군의 날국군의 날</em>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">2</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date holiday">3</span>
+			<em class="text holiday">개천절</em>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">4</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">5</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">6</span>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td>
+		<div class="inner">
+			<span class="date holiday">7</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">8</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date holiday">9</span>
+			<em class="text holiday">한글날</em>
+			<span class="lunar">음 9.1
+		</span></div>
+	</td>
+	<td class="today">
+		<div class="inner">
+			<span class="date">10</span>
+			<strong class="blind">오늘</strong>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">11</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">12</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">13</span>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td>
+		<div class="inner">
+			<span class="date holiday">7</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">8</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date holiday">9</span>
+			<em class="text holiday">한글날</em>
+			<span class="lunar">음 9.1</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">10</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">11</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">12</span>
+		</div>
+	</td>
+	<td>
+		<div class="inner">
+			<span class="date">13</span>
+		</div>
+	</td>
+</tr>
+</tbody>
+</table>
+요소들을 하나씩 추가하여 달력을 완성합니다. 공통으로 처리해야할 부분과 분기 처리가 필요한 부분에 대해 고민해보고, 적절하게 클래스를 사용합니다. 
+
+
+
+ 
+CSS 실습
+
+table, th {
+	border: 1px solid #eaedef;
+	border-collapse: collapse;
+}
+
+td {
+	border-top: 1px solid #eaedef;
+	border-left: 1px solid #eaedef;
+}
+
+
+table {
+	width: 590px;
+	table-layout: fixed;
+	font-size: 12px;
+}
+
+th {
+	height: 25px;
+	color: #777;
+}
+
+.inner {
+	position: relative;
+	height: 70px;
+	padding: 5px;
+}
+
+.date {
+	font-weight: bold;
+}
+
+.text {
+	display: block;
+	margin-top: 3px;
+	font-style: normal;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.date.dimmed {
+	color: #e7e7e7;
+}
+
+.date.holiday {
+	color: #f44e4e;
+}
+
+.text.holiday {
+	color: #f44e4e;
+}
+
+.text.anniversary {
+	color: #00c;
+}
+
+.lunar {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	font-size: 11px;
+	color: #bababa;
+}
+
+.today {
+	border: 1px solid #e0e0bf;
+	background: #ffffd9;
+}
+ 
+
+ 
+요약 정리
+
+어떤 UI 인지에 따라 테이블 태그의 기본 스타일을 이용할 수도 있어야 합니다. 무조건 vertical-align: top; 으로 정렬할 필요도 없으며, border를 각 셀에 줄 필요도 없습니다. 스스로 판단하기에 가장 적합한 방법을 찾으면 됩니다.
+
+다만 셀 안에 DIV를 추가하여 요소를 꾸며준다는 점을 꼭 기억하시길 바랍니다.
