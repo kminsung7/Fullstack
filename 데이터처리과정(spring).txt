@@ -10,3 +10,7 @@ js파일에서 등록된 이벤트 리스너를 통해 클라이언트에서 요
  -> 클라이언트에 반영
 
 *BaseMultiActionController.getResponseData()의 세번째 파라미터는 비동기 통신에서 변수 data
+
+
+데이터의 이동
+클라이언트 -> 컨트롤러 -> 서비스함수 호출 -> 서비스 -> DAO함수 호출 -> DAO -> DBMS쿼리 호출 -> sql 쿼리 매퍼 호출
